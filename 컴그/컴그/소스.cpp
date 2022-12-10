@@ -365,7 +365,7 @@ void buildTheMaze()
     //draw player position
     glPushMatrix();
     {
-        glTranslated(temp_pos.x, temp_pos.y, temp_pos.z+20);
+        glTranslated(temp_pos.x, temp_pos.y, temp_pos.z + 20);
         drawSphere(playerRad, 50, 50);
         glTranslated(-temp_pos.x, -temp_pos.y, -temp_pos.z);
     }
@@ -376,7 +376,8 @@ void buildTheMaze()
     drawWallGeneric(-500, -500, -500, 500, 52, 5);
     drawWallGeneric(-500, -500, 500, -500, 52, 5);
     drawWallGeneric(500, 500, -500, 500, 52, 5);
-    drawWallGeneric(500, 500, 500, -500, 52, 5);
+    drawWallGeneric(500, 500, 500, -70, 52, 5);
+    drawWallGeneric(500, -500, 500, -150, 52, 5);
     //main maze
     drawWallGeneric(400, 350, 400, 0, 52, 5);
     drawWallGeneric(400, 400, 0, 400, 52, 5);
@@ -457,9 +458,6 @@ bool isGameOver()
 void drawSS()
 {
 
-
-
-
     if (!isGameOver())
     {
 
@@ -468,8 +466,13 @@ void drawSS()
         drawWallGeneric(-500, -500, -500, 500, 0, 1000);
 
         //if (mapFlag == 0) {
-            drawWallGeneric(-501, -501, -501, 501, 50, 1000);
+        glPushMatrix();
+        glTranslatef(0, 0, 50);
+        drawWallGeneric(-501, -501, -501, 501, 0, 1000);
+        glPopMatrix();
         //}
+        glColor3f(0.0, 0.0, 1.0);
+        drawWallGeneric(500, -85, 500, -150, 52, 5);
 
         glColor3f(1, 1, 1);
         glPushMatrix();
@@ -498,7 +501,7 @@ void drawSS()
             ss << hour;
             strHour = ss.str();
             std::string str = "time  " + strHour + "::" + strMn + "::" + strSec;
-            output(0, 0, 0, 0, 1, 0, 600, 200, 0, 0, (void*)font, str);
+            output(0, 0, 0, 0, 0, 1, 400, 400, 10, 100, (void*)font, str);
         }
         glPopMatrix();
 
@@ -545,26 +548,26 @@ void keyboardListener(unsigned char key, int x, int y)
             l.y = u.z * r.x - u.x * r.z;
             l.z = u.x * r.y - u.y * r.x;
             break;
-        //case '3'://look up
-        //    angle = 0.05;
-        //    l.x = l.x * cos(angle) + u.x * sin(angle);
-        //    l.y = l.y * cos(angle) + u.y * sin(angle);
-        //    l.z = l.z * cos(angle) + u.z * sin(angle);
-        //    //now, u=r*l
-        //    u.x = r.y * l.z - r.z * l.y;
-        //    u.y = r.z * l.x - r.x * l.z;
-        //    u.z = r.x * l.y - r.y * l.x;
-        //    break;
-        //case '4'://look down
-        //    angle = -0.05;
-        //    l.x = l.x * cos(angle) + u.x * sin(angle);
-        //    l.y = l.y * cos(angle) + u.y * sin(angle);
-        //    l.z = l.z * cos(angle) + u.z * sin(angle);
-        //    //now, u=r*l
-        //    u.x = r.y * l.z - r.z * l.y;
-        //    u.y = r.z * l.x - r.x * l.z;
-        //    u.z = r.x * l.y - r.y * l.x;
-        //    break;
+            //case '3'://look up
+            //    angle = 0.05;
+            //    l.x = l.x * cos(angle) + u.x * sin(angle);
+            //    l.y = l.y * cos(angle) + u.y * sin(angle);
+            //    l.z = l.z * cos(angle) + u.z * sin(angle);
+            //    //now, u=r*l
+            //    u.x = r.y * l.z - r.z * l.y;
+            //    u.y = r.z * l.x - r.x * l.z;
+            //    u.z = r.x * l.y - r.y * l.x;
+            //    break;
+            //case '4'://look down
+            //    angle = -0.05;
+            //    l.x = l.x * cos(angle) + u.x * sin(angle);
+            //    l.y = l.y * cos(angle) + u.y * sin(angle);
+            //    l.z = l.z * cos(angle) + u.z * sin(angle);
+            //    //now, u=r*l
+            //    u.x = r.y * l.z - r.z * l.y;
+            //    u.y = r.z * l.x - r.x * l.z;
+            //    u.z = r.x * l.y - r.y * l.x;
+            //    break;
 
 
         case 'x':
@@ -649,7 +652,7 @@ void specialKeyListener(int key, int x, int y)
             {
                 forceLookForward();
 
-                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z)/10;
+                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z) / 10;
                 pos.x = pos.x - l.x / unit;
                 pos.y = pos.y - l.y / unit;
                 pos.z = pos.z - l.z / unit;
@@ -660,7 +663,7 @@ void specialKeyListener(int key, int x, int y)
             if (pos.z == 25)
             {
                 forceLookForward();
-                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z)/10;
+                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z) / 10;
                 pos.x = pos.x + l.x / unit;
                 pos.y = pos.y + l.y / unit;
                 pos.z = pos.z + l.z / unit;
@@ -741,10 +744,13 @@ void display()
     / set-up camera here
     ********************/
     ///load the correct matrix -- MODEL-VIEW matrix
+    //glViewport(0, 0, 500, 500);
     glMatrixMode(GL_MODELVIEW);
 
     ///initialize the matrix
     glLoadIdentity();
+
+
 
     //now give three info
     //1. where is the camera (viewer)?
@@ -752,8 +758,8 @@ void display()
     //3. Which direction is the camera's UP direction?
 
     //gluLookAt(100,100,100,	0,0,0,	0,0,1);
-    //gluLookAt(pos.x, pos.y, pos.z, pos.x + l.x, pos.y + l.y, pos.z + l.z, u.x, u.y, u.z);
-    gluLookAt(0,0,1000,	0,0,0,	0,1,0);
+    gluLookAt(pos.x, pos.y, pos.z, pos.x + l.x, pos.y + l.y, pos.z + l.z, u.x, u.y, u.z);
+    //gluLookAt(0,0,1000,	0,0,0,	0,1,0);
 
 
     //again select MODEL-VIEW
@@ -855,7 +861,7 @@ void init()
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
-    glutInitWindowSize(800, 500);
+    glutInitWindowSize(600, 500);
     glutInitWindowPosition(0, 0);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);	//Depth, Double buffer, RGB color
 

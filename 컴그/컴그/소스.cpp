@@ -365,7 +365,7 @@ void buildTheMaze()
     //draw player position
     glPushMatrix();
     {
-        glTranslated(temp_pos.x, temp_pos.y, temp_pos.z);
+        glTranslated(temp_pos.x, temp_pos.y, temp_pos.z+20);
         drawSphere(playerRad, 50, 50);
         glTranslated(-temp_pos.x, -temp_pos.y, -temp_pos.z);
     }
@@ -373,36 +373,36 @@ void buildTheMaze()
 
     glColor3f(1.0, 0.0, 0.0);
     //border
-    drawWallGeneric(-500, -500, -500, 500, 50, 5);
-    drawWallGeneric(-500, -500, 500, -500, 50, 5);
-    drawWallGeneric(500, 500, -500, 500, 50, 5);
-    drawWallGeneric(500, 500, 500, -500, 50, 5);
+    drawWallGeneric(-500, -500, -500, 500, 52, 5);
+    drawWallGeneric(-500, -500, 500, -500, 52, 5);
+    drawWallGeneric(500, 500, -500, 500, 52, 5);
+    drawWallGeneric(500, 500, 500, -500, 52, 5);
     //main maze
-    drawWallGeneric(400, 350, 400, 0, 50, 5);
-    drawWallGeneric(400, 400, 0, 400, 50, 5);
-    drawWallGeneric(400, 300, 300, 300, 50, 5);
-    drawWallGeneric(300, 300, 300, 350, 50, 5);
-    drawWallGeneric(-100, 0, 400, 0, 50, 15);
-    drawWallGeneric(-200, -70, 500, -70, 50, 15);
-    drawWallGeneric(-200, -70, -200, 200, 50, 15);
-    drawWallGeneric(-200, 200, 200, 200, 50, 15);
-    drawWallGeneric(200, 250, 400, 200, 50, 15);
-    drawWallGeneric(-50, 500, -50, 300, 50, 15);
-    drawWallGeneric(0, 400, 0, 250, 50, 15);
-    drawWallGeneric(0, 250, -200, 250, 50, 10);
-    drawWallGeneric(-200, 250, -200, 500, 50, 10);
-    drawWallGeneric(-300, -150, 500, -150, 50, 10);
-    drawWallGeneric(-300, -150, -300, 450, 50, 10);
-    drawWallGeneric(300, 80, -100, 80, 50, 15);
-    drawWallGeneric(-380, 500, -380, 150, 50, 10);
-    drawWallGeneric(-380, 100, -380, -250, 50, 10);
-    drawWallGeneric(-380, -300, -380, -330, 50, 10);
-    drawWallGeneric(-380, -100, -300, -100, 50, 10);
-    drawWallGeneric(-380, -330, 400, -330, 50, 5);
-    drawWallGeneric(-200, -250, 300, -250, 50, 3);
-    drawWallGeneric(-200, -250, -200, -170, 50, 5);
-    drawWallGeneric(-300, -400, 400, -400, 50, 1);
-    drawWallGeneric(400, -330, 400, -400, 50, 1);
+    drawWallGeneric(400, 350, 400, 0, 52, 5);
+    drawWallGeneric(400, 400, 0, 400, 52, 5);
+    drawWallGeneric(400, 300, 300, 300, 52, 5);
+    drawWallGeneric(300, 300, 300, 350, 52, 5);
+    drawWallGeneric(-100, 0, 400, 0, 52, 15);
+    drawWallGeneric(-200, -70, 500, -70, 52, 15);
+    drawWallGeneric(-200, -70, -200, 200, 52, 15);
+    drawWallGeneric(-200, 200, 200, 200, 52, 15);
+    drawWallGeneric(200, 250, 400, 200, 52, 15);
+    drawWallGeneric(-50, 500, -50, 300, 52, 15);
+    drawWallGeneric(0, 400, 0, 250, 52, 15);
+    drawWallGeneric(0, 250, -200, 250, 52, 10);
+    drawWallGeneric(-200, 250, -200, 500, 52, 10);
+    drawWallGeneric(-300, -150, 500, -150, 52, 10);
+    drawWallGeneric(-300, -150, -300, 450, 52, 10);
+    drawWallGeneric(300, 80, -100, 80, 52, 15);
+    drawWallGeneric(-380, 500, -380, 150, 52, 10);
+    drawWallGeneric(-380, 100, -380, -250, 52, 10);
+    drawWallGeneric(-380, -300, -380, -330, 52, 10);
+    drawWallGeneric(-380, -100, -300, -100, 52, 10);
+    drawWallGeneric(-380, -330, 400, -330, 52, 5);
+    drawWallGeneric(-200, -250, 300, -250, 52, 3);
+    drawWallGeneric(-200, -250, -200, -170, 52, 5);
+    drawWallGeneric(-300, -400, 400, -400, 52, 1);
+    drawWallGeneric(400, -330, 400, -400, 52, 1);
 
 
 
@@ -467,6 +467,9 @@ void drawSS()
         glColor3f(0.30, 0.20, 0.10);   //ground
         drawWallGeneric(-500, -500, -500, 500, 0, 1000);
 
+        //if (mapFlag == 0) {
+            drawWallGeneric(-501, -501, -501, 501, 50, 1000);
+        //}
 
         glColor3f(1, 1, 1);
         glPushMatrix();
@@ -494,8 +497,8 @@ void drawSS()
             ss.clear();
             ss << hour;
             strHour = ss.str();
-            std::string str = strHour + "::" + strMn + "::" + strSec;
-            output(0, 0, 0, 0, 1, 0, 400, 400, 10, 100, (void*)font, str);
+            std::string str = "time  " + strHour + "::" + strMn + "::" + strSec;
+            output(0, 0, 0, 0, 1, 0, 600, 200, 0, 0, (void*)font, str);
         }
         glPopMatrix();
 
@@ -542,26 +545,26 @@ void keyboardListener(unsigned char key, int x, int y)
             l.y = u.z * r.x - u.x * r.z;
             l.z = u.x * r.y - u.y * r.x;
             break;
-        case '3'://look up
-            angle = 0.05;
-            l.x = l.x * cos(angle) + u.x * sin(angle);
-            l.y = l.y * cos(angle) + u.y * sin(angle);
-            l.z = l.z * cos(angle) + u.z * sin(angle);
-            //now, u=r*l
-            u.x = r.y * l.z - r.z * l.y;
-            u.y = r.z * l.x - r.x * l.z;
-            u.z = r.x * l.y - r.y * l.x;
-            break;
-        case '4'://look down
-            angle = -0.05;
-            l.x = l.x * cos(angle) + u.x * sin(angle);
-            l.y = l.y * cos(angle) + u.y * sin(angle);
-            l.z = l.z * cos(angle) + u.z * sin(angle);
-            //now, u=r*l
-            u.x = r.y * l.z - r.z * l.y;
-            u.y = r.z * l.x - r.x * l.z;
-            u.z = r.x * l.y - r.y * l.x;
-            break;
+        //case '3'://look up
+        //    angle = 0.05;
+        //    l.x = l.x * cos(angle) + u.x * sin(angle);
+        //    l.y = l.y * cos(angle) + u.y * sin(angle);
+        //    l.z = l.z * cos(angle) + u.z * sin(angle);
+        //    //now, u=r*l
+        //    u.x = r.y * l.z - r.z * l.y;
+        //    u.y = r.z * l.x - r.x * l.z;
+        //    u.z = r.x * l.y - r.y * l.x;
+        //    break;
+        //case '4'://look down
+        //    angle = -0.05;
+        //    l.x = l.x * cos(angle) + u.x * sin(angle);
+        //    l.y = l.y * cos(angle) + u.y * sin(angle);
+        //    l.z = l.z * cos(angle) + u.z * sin(angle);
+        //    //now, u=r*l
+        //    u.x = r.y * l.z - r.z * l.y;
+        //    u.y = r.z * l.x - r.x * l.z;
+        //    u.z = r.x * l.y - r.y * l.x;
+        //    break;
 
 
         case 'x':
@@ -606,6 +609,7 @@ void keyboardListener(unsigned char key, int x, int y)
             }
             else
             {
+
                 mapFlag = 0;
                 pos.x = temp_pos.x;
                 pos.y = temp_pos.y;
@@ -645,7 +649,7 @@ void specialKeyListener(int key, int x, int y)
             {
                 forceLookForward();
 
-                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z);
+                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z)/10;
                 pos.x = pos.x - l.x / unit;
                 pos.y = pos.y - l.y / unit;
                 pos.z = pos.z - l.z / unit;
@@ -656,7 +660,7 @@ void specialKeyListener(int key, int x, int y)
             if (pos.z == 25)
             {
                 forceLookForward();
-                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z);
+                unit = sqrt(l.x * l.x + l.y * l.y + l.z * l.z)/10;
                 pos.x = pos.x + l.x / unit;
                 pos.y = pos.y + l.y / unit;
                 pos.z = pos.z + l.z / unit;
@@ -748,8 +752,8 @@ void display()
     //3. Which direction is the camera's UP direction?
 
     //gluLookAt(100,100,100,	0,0,0,	0,0,1);
-    gluLookAt(pos.x, pos.y, pos.z, pos.x + l.x, pos.y + l.y, pos.z + l.z, u.x, u.y, u.z);
-    //gluLookAt(0,0,200,	0,0,0,	0,1,0);
+    //gluLookAt(pos.x, pos.y, pos.z, pos.x + l.x, pos.y + l.y, pos.z + l.z, u.x, u.y, u.z);
+    gluLookAt(0,0,1000,	0,0,0,	0,1,0);
 
 
     //again select MODEL-VIEW
@@ -851,7 +855,7 @@ void init()
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
-    glutInitWindowSize(500, 500);
+    glutInitWindowSize(800, 500);
     glutInitWindowPosition(0, 0);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);	//Depth, Double buffer, RGB color
 

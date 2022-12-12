@@ -1,18 +1,22 @@
-#include<windows.h>
+//#include<windows.h>
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
 //#include<bits/stdc++.h>
-#include <windows.h>
+//#include <windows.h>
 #include <math.h>
 #include <string>
 #include <sstream>
 #include <iostream>
-#include <windows.h>
+//#include <windows.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 #define pi 3.141529
+// const int font = (int)GLUT_BITMAP_9_BY_15;
 const int font = (int)GLUT_BITMAP_9_BY_15;
 double cubeLen = 35, sphereRad = 7;
 double cameraHeight;
@@ -29,6 +33,15 @@ int sec, mn = 0, hour = 0;
 int gameOver = 0;
 std::string strSec, strMn, strHour, cout;
 
+struct ImageData {
+    int width;
+    int height;
+    int nrChannels;
+    GLuint texture;
+    unsigned char* data;
+};
+
+ImageData wallImageData;
 
 struct Moon
 {
@@ -202,6 +215,16 @@ void drawSphere(double radius, int slices, int stacks)
 void drawWallGeneric(double ax, double ay, double bx, double by, double height, double width)
 {
 
+    glEnable(GL_TEXTURE_2D);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, wallImageData.data);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glColor3f(1, 1, 1);
+    glBindTexture(GL_TEXTURE_2D, wallImageData.texture);
+
 
     double dis = sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
     double x1, y1, x2, y2;
@@ -213,6 +236,18 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     {
         glBegin(GL_QUADS);
         {
+
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //
+            //   범진님 여길 봐요!!!!!!!!!!!!!!!!!!!1
+            //
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            glTexCoord3f(0, 0, 0);
+            glTexCoord3f(0, 0, 1);
+            glTexCoord3f(1, 0, 1);
+            glTexCoord3f(1, 0, 0);
 
             glVertex3f(ax, ay, 0);
             glVertex3f(bx, by, 0);
@@ -458,12 +493,20 @@ bool isGameOver()
 
 
 
-float tmpX = -160;
+float tmpY = 500;
 float tmpZ = -25;
 float rotate_angle = 0;
+float rotate_angle1 = 60;
+float rotate_angle2 = 0;
+float rotate_angle3 = 30;
+float rotate_angle4 = 0;
 bool flag = false;
 bool flag_ = false;
 bool flag_angle = false;
+bool flag_angle1 = false;
+bool flag_angle2 = false;
+bool flag_angle3 = false;
+bool flag_angle4 = false;
 
 void drawSS()
 {
@@ -490,23 +533,24 @@ void drawSS()
         //이동하는 구 장애물
         glPushMatrix();
         {   
-            if (tmpX < 20 && flag == false) {
-                tmpX += 0.1;
+            if (tmpY > -80 && flag == false) {
+                tmpY -= 1;
             }
-            if (tmpX >= 20) {
+            if (tmpY <= -80) {
                 flag = true;
             }
             if (flag == true) {
-                tmpX -= 0.1;
+                tmpY += 1;
             }
-            if (tmpX <= -170) {
+            if (tmpY >= 550) {
                 flag = false;
             }
-            glTranslatef(tmpX, 225, 25);
-            drawSphere(moon.rad, 50, 50);
+            glTranslatef(-340, tmpY, 25);
+            drawSphere(25, 50, 50);
         }
         glPopMatrix();
-        //바닥에서 올라오는 가시
+        
+        //바닥에서 올라오는 가시1
         glPushMatrix();
         {
             if (tmpZ < 0 && flag_ == false) {
@@ -521,12 +565,52 @@ void drawSS()
             if (tmpZ <= -25) {
                 flag_ = false;
             }
-            glTranslatef(-330, 400, tmpZ);
+            glTranslatef(-30, 225, tmpZ);
+            glutSolidCone(10, 25, 20, 50);
+        }
+        glPopMatrix();
+        
+        //바닥에서 올라오는 가시2
+        glPushMatrix();
+        {
+            if (tmpZ < 0 && flag_ == false) {
+                tmpZ += 0.01;
+            }
+            if (tmpZ >= 0) {
+                flag_ = true;
+            }
+            if (flag_ == true) {
+                tmpZ -= 0.01;
+            }
+            if (tmpZ <= -25) {
+                flag_ = false;
+            }
+            glTranslatef(-70, 230, tmpZ);
             glutSolidCone(10, 25, 20, 50);
         }
         glPopMatrix();
 
+        //바닥에서 올라오는 가시3
+        glPushMatrix();
+        {
+            if (tmpZ < 0 && flag_ == false) {
+                tmpZ += 0.01;
+            }
+            if (tmpZ >= 0) {
+                flag_ = true;
+            }
+            if (flag_ == true) {
+                tmpZ -= 0.01;
+            }
+            if (tmpZ <= -25) {
+                flag_ = false;
+            }
+            glTranslatef(-110, 225, tmpZ);
+            glutSolidCone(10, 25, 20, 50);
+        }
+        glPopMatrix();
 
+        //흔들리는 공1
         glPushMatrix();
         {
             if (rotate_angle < 60 && flag_angle == false) {
@@ -541,11 +625,103 @@ void drawSS()
             if (rotate_angle <= -60) {
                 flag_angle = false;
             }
-            glTranslatef(-150, -450, 50);
+            glTranslatef(-300, -455, 50);
             glRotatef(rotate_angle, 1, 0, 0);
             glTranslatef(0, 0, -30);
             drawAxes();
-            glutSolidCube(50.0);
+            drawSphere(25, 50, 50);
+        }
+        glPopMatrix();
+
+        //흔들리는 공2
+        glPushMatrix();
+        {
+            if (rotate_angle1 < 60 && flag_angle1 == false) {
+                rotate_angle1 += 0.1;
+            }
+            if (rotate_angle1 >= 60) {
+                flag_angle1 = true;
+            }
+            if (flag_angle1 == true) {
+                rotate_angle1 -= 0.1;
+            }
+            if (rotate_angle1 <= -60) {
+                flag_angle1 = false;
+            }
+            glTranslatef(-150, -455, 50);
+            glRotatef(rotate_angle1, 1, 0, 0);
+            glTranslatef(0, 0, -30);
+            drawAxes();
+            drawSphere(25, 50, 50);
+        }
+        glPopMatrix();
+
+        //흔들리는 공3
+        glPushMatrix();
+        {
+            if (rotate_angle2 < 60 && flag_angle2 == false) {
+                rotate_angle2 += 0.1;
+            }
+            if (rotate_angle2 >= 60) {
+                flag_angle2 = true;
+            }
+            if (flag_angle2 == true) {
+                rotate_angle2 -= 0.1;
+            }
+            if (rotate_angle2 <= -60) {
+                flag_angle2 = false;
+            }
+            glTranslatef(-0, -455, 50);
+            glRotatef(rotate_angle2, 1, 0, 0);
+            glTranslatef(0, 0, -30);
+            drawAxes();
+            drawSphere(25, 50, 50);
+        }
+        glPopMatrix();
+
+        //흔들리는 공4
+        glPushMatrix();
+        {
+            if (rotate_angle3 < 60 && flag_angle3 == false) {
+                rotate_angle3 += 0.1;
+            }
+            if (rotate_angle3 >= 60) {
+                flag_angle3 = true;
+            }
+            if (flag_angle3 == true) {
+                rotate_angle3 -= 0.1;
+            }
+            if (rotate_angle3 <= -60) {
+                flag_angle3 = false;
+            }
+            glTranslatef(150, -455, 50);
+            glRotatef(rotate_angle3, 1, 0, 0);
+            glTranslatef(0, 0, -30);
+            drawAxes();
+            drawSphere(25, 50, 50);
+        }
+        glPopMatrix();
+
+        //흔들리는 공5
+        glPushMatrix();
+        {
+            if (rotate_angle4 < 60 && flag_angle4 == false) {
+                rotate_angle4 += 0.1;
+            }
+            if (rotate_angle4 >= 60) {
+                flag_angle4 = true;
+            }
+            if (flag_angle4 == true) {
+                rotate_angle4 -= 0.1;
+            }
+            if (rotate_angle4 <= -60) {
+                flag_angle4 = false;
+            }
+            glTranslatef(300, -455, 50);
+            glRotatef(rotate_angle4, 1, 0, 0);
+            glTranslatef(0, 0, -30);
+            drawAxes();
+            drawSphere(25, 50, 50);
         }
         glPopMatrix();
 
@@ -904,6 +1080,10 @@ void animate()
 void init()
 {
 
+    // LOAD TEXTURES
+    wallImageData.data = stbi_load("wall.jpg", &(wallImageData.width), &(wallImageData.height), &(wallImageData.nrChannels), 0);
+    glGenTextures(1, &(wallImageData.texture));
+
     //codes for initialization
     drawgrid = 1;
     drawaxes = 1;
@@ -931,6 +1111,10 @@ void init()
     //far distance
 }
 
+void destroy() {
+    stbi_image_free(wallImageData.data);
+}
+
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
@@ -950,6 +1134,8 @@ int main(int argc, char** argv)
     glutKeyboardFunc(keyboardListener);
     glutSpecialFunc(specialKeyListener);
     glutMouseFunc(mouseListener);
+
+    //destroy();
 
     glutMainLoop();
 }

@@ -396,7 +396,7 @@ void buildTheMaze()
     drawWallGeneric(-300, -150, -300, 450, 52, 10);
     drawWallGeneric(300, 80, -100, 80, 52, 15);
     drawWallGeneric(-380, 500, -380, 150, 52, 10);
-    drawWallGeneric(-380, 100, -380, -250, 52, 10);
+    drawWallGeneric(-380, 100, -380, -300, 52, 10);
     drawWallGeneric(-380, -300, -380, -330, 52, 10);
     drawWallGeneric(-380, -100, -300, -100, 52, 10);
     drawWallGeneric(-380, -330, 400, -330, 52, 5);
@@ -455,6 +455,16 @@ bool isGameOver()
     }
     return false;
 }
+
+
+
+float tmpX = -160;
+float tmpZ = -25;
+float rotate_angle = 0;
+bool flag = false;
+bool flag_ = false;
+bool flag_angle = false;
+
 void drawSS()
 {
 
@@ -466,20 +476,79 @@ void drawSS()
         drawWallGeneric(-500, -500, -500, 500, 0, 1000);
 
         //if (mapFlag == 0) {
-        glPushMatrix();
+        //지붕
+        /*glPushMatrix();
         glTranslatef(0, 0, 50);
         drawWallGeneric(-501, -501, -501, 501, 0, 1000);
-        glPopMatrix();
+        glPopMatrix();*/
         //}
         glColor3f(0.0, 0.0, 1.0);
         drawWallGeneric(500, -85, 500, -150, 52, 5);
 
         glColor3f(1, 1, 1);
+
+        //이동하는 구 장애물
         glPushMatrix();
-        {
-            glTranslated(moon.x, moon.y, moon.z);//moon
+        {   
+            if (tmpX < 20 && flag == false) {
+                tmpX += 0.1;
+            }
+            if (tmpX >= 20) {
+                flag = true;
+            }
+            if (flag == true) {
+                tmpX -= 0.1;
+            }
+            if (tmpX <= -170) {
+                flag = false;
+            }
+            glTranslatef(tmpX, 225, 25);
             drawSphere(moon.rad, 50, 50);
         }
+        glPopMatrix();
+        //바닥에서 올라오는 가시
+        glPushMatrix();
+        {
+            if (tmpZ < 0 && flag_ == false) {
+                tmpZ += 0.01;
+            }
+            if (tmpZ >= 0) {
+                flag_ = true;
+            }
+            if (flag_ == true) {
+                tmpZ -= 0.01;
+            }
+            if (tmpZ <= -25) {
+                flag_ = false;
+            }
+            glTranslatef(-330, 400, tmpZ);
+            glutSolidCone(10, 25, 20, 50);
+        }
+        glPopMatrix();
+
+
+        glPushMatrix();
+        {
+            if (rotate_angle < 60 && flag_angle == false) {
+                rotate_angle += 0.1;
+            }
+            if (rotate_angle >= 60) {
+                flag_angle = true;
+            }
+            if (flag_angle == true) {
+                rotate_angle -= 0.1;
+            }
+            if (rotate_angle <= -60) {
+                flag_angle = false;
+            }
+            glTranslatef(-150, -450, 50);
+            glRotatef(rotate_angle, 1, 0, 0);
+            glTranslatef(0, 0, -30);
+            drawAxes();
+            glutSolidCube(50.0);
+        }
+        glPopMatrix();
+
         drawOrion();
         buildTheMaze();
         glPushMatrix();
@@ -783,7 +852,11 @@ void display()
 
     //drawCone(20,50,24);
 
-    //drawSphere(30,24,20);
+    /*glPushMatrix();
+    glTranslatef(-100, 200, 0);
+    glColor3f(1.0, 1.0, 0.0);
+    drawSphere(30,24,20);
+    glPopMatrix();*/
 
 
 

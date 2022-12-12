@@ -98,7 +98,13 @@ D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(293,24): warning C4244: '인수': 'doub
 D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(329,24): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
 D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(441,22): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(441,19): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(465,35): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
-D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(504,68): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
-D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(515,61): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(475,35): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(494,28): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(500,28): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(513,29): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(519,29): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(533,36): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(539,36): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(573,68): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
+D:\CTS\WeMadeIt\컴그\컴그\소스.cpp(584,61): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
   컴그.vcxproj -> D:\CTS\WeMadeIt\컴그\x64\Debug\컴그.exe

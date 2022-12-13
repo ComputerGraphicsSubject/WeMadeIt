@@ -219,6 +219,9 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, wallImageData.data);
 
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -234,7 +237,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     y2 = by + width * (ax - bx) / dis;
     glPushMatrix();
     {
-        glBegin(GL_QUADS);
+        glBegin(GL_POLYGON);
         {
 
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -244,14 +247,15 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
             //
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            glTexCoord3f(0, 0, 0);
-            glTexCoord3f(0, 0, 1);
-            glTexCoord3f(1, 0, 1);
-            glTexCoord3f(1, 0, 0);
+            
 
+            glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
+            glTexCoord3f(1, 0, 0);
             glVertex3f(bx, by, 0);
+            glTexCoord3f(1, 1.0, 0);
             glVertex3f(bx, by, height);
+            glTexCoord3f(0, 1.0, 0);
             glVertex3f(ax, ay, height);
         }
         glEnd();
@@ -263,9 +267,13 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
         //glTranslatef(width,0,0);
         glBegin(GL_QUADS);
         {
+            //glTexCoord3f(0, 0, 0);
             glVertex3f(x1, y1, 0);
+            //glTexCoord3f(1, 0, 0);
             glVertex3f(x2, y2, 0);
+            //glTexCoord3f(1, 1, 0);
             glVertex3f(x2, y2, height);
+            //glTexCoord3f(0, 1, 0);
             glVertex3f(x1, y1, height);
         }
         glEnd();

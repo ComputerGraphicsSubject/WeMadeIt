@@ -229,12 +229,16 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     glBindTexture(GL_TEXTURE_2D, wallImageData.texture);
 
 
+
     double dis = sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
     double x1, y1, x2, y2;
     x1 = ax + width * (by - ay) / dis;
     y1 = ay + width * (ax - bx) / dis;
     x2 = bx + width * (by - ay) / dis;
     y2 = by + width * (ax - bx) / dis;
+    
+
+
     glPushMatrix();
     {
         glBegin(GL_POLYGON);
@@ -251,11 +255,11 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
-            glTexCoord3f(1, 0, 0);
+            glTexCoord3f(height*2, 0, 0);
             glVertex3f(bx, by, 0);
-            glTexCoord3f(1, 1.0, 0);
+            glTexCoord3f(height*2, width, 0);
             glVertex3f(bx, by, height);
-            glTexCoord3f(0, 1.0, 0);
+            glTexCoord3f(0, width, 0);
             glVertex3f(ax, ay, height);
         }
         glEnd();
@@ -416,16 +420,16 @@ void buildTheMaze()
 
     glColor3f(1.0, 0.0, 0.0);
     //border
-    drawWallGeneric(-500, -500, -500, 500, 52, 5);
-    drawWallGeneric(-500, -500, 500, -500, 52, 5);
-    drawWallGeneric(500, 500, -500, 500, 52, 5);
-    drawWallGeneric(500, 500, 500, -70, 52, 5);
-    drawWallGeneric(500, -500, 500, -150, 52, 5);
+    drawWallGeneric(-500, -500, -500, 500, 52, 15);
+    drawWallGeneric(-500, -500, 500, -500, 52, 15);
+    drawWallGeneric(500, 500, -500, 500, 52, 15);
+    drawWallGeneric(500, 500, 500, -70, 52, 15);
+    drawWallGeneric(500, -500, 500, -150, 52, 15);
     //main maze
-    drawWallGeneric(400, 350, 400, 0, 52, 5);
-    drawWallGeneric(400, 400, 0, 400, 52, 5);
-    drawWallGeneric(400, 300, 300, 300, 52, 5);
-    drawWallGeneric(300, 300, 300, 350, 52, 5);
+    drawWallGeneric(400, 350, 400, 0, 52, 15);
+    drawWallGeneric(400, 400, 0, 400, 52, 15);
+    drawWallGeneric(400, 300, 300, 300, 52, 15);
+    drawWallGeneric(300, 300, 300, 350, 52, 15);
     drawWallGeneric(-100, 0, 400, 0, 52, 15);
     drawWallGeneric(-200, -70, 500, -70, 52, 15);
     drawWallGeneric(-200, -70, -200, 200, 52, 15);
@@ -433,20 +437,20 @@ void buildTheMaze()
     drawWallGeneric(200, 250, 400, 200, 52, 15);
     drawWallGeneric(-50, 500, -50, 300, 52, 15);
     drawWallGeneric(0, 400, 0, 250, 52, 15);
-    drawWallGeneric(0, 250, -200, 250, 52, 10);
-    drawWallGeneric(-200, 250, -200, 500, 52, 10);
-    drawWallGeneric(-300, -150, 500, -150, 52, 10);
-    drawWallGeneric(-300, -150, -300, 450, 52, 10);
+    drawWallGeneric(0, 250, -200, 250, 52, 15);
+    drawWallGeneric(-200, 250, -200, 500, 52, 15);
+    drawWallGeneric(-300, -150, 500, -150, 52, 15);
+    drawWallGeneric(-300, -150, -300, 450, 52, 15);
     drawWallGeneric(300, 80, -100, 80, 52, 15);
-    drawWallGeneric(-380, 500, -380, 150, 52, 10);
-    drawWallGeneric(-380, 100, -380, -300, 52, 10);
-    drawWallGeneric(-380, -300, -380, -330, 52, 10);
-    drawWallGeneric(-380, -100, -300, -100, 52, 10);
-    drawWallGeneric(-380, -330, 400, -330, 52, 5);
-    drawWallGeneric(-200, -250, 300, -250, 52, 3);
-    drawWallGeneric(-200, -250, -200, -170, 52, 5);
-    drawWallGeneric(-300, -400, 400, -400, 52, 1);
-    drawWallGeneric(400, -330, 400, -400, 52, 1);
+    drawWallGeneric(-380, 500, -380, 150, 52, 15);
+    drawWallGeneric(-380, 100, -380, -300, 52, 15);
+    drawWallGeneric(-380, -300, -380, -330, 52, 15);
+    drawWallGeneric(-380, -100, -300, -100, 52, 15);
+    drawWallGeneric(-380, -330, 400, -330, 52, 15);
+    drawWallGeneric(-200, -250, 300, -250, 52, 15);
+    drawWallGeneric(-200, -250, -200, -170, 52, 15);
+    drawWallGeneric(-300, -400, 400, -400, 52, 15);
+    drawWallGeneric(400, -330, 400, -400, 52, 15);
 
 
 
@@ -892,11 +896,27 @@ void keyboardListener(unsigned char key, int x, int y)
     }
 }
 
+int MaxMoveX = 485;
+int MaxMoveY = 485;
+int MinMoveX = -485;
+int MinMoveY = -485;
 
 void specialKeyListener(int key, int x, int y)
 {
     if (gameOver == 0)
     {
+        if (pos.x >= MaxMoveX) {
+            pos.x = MaxMoveX;
+        }
+        if (pos.x <= MinMoveX) {
+            pos.x = MinMoveX;
+        }
+        if (pos.y >= MaxMoveY) {
+            pos.y = MaxMoveY;
+        }
+        if (pos.y <= MinMoveY) {
+            pos.y = MinMoveY;
+        }
         switch (key)
         {
         case GLUT_KEY_DOWN:		//down arrow key

@@ -107,6 +107,80 @@ vec temp_l(0, 0, 0);
 Moon moon(-200, -200, 200, 20);
 Destination destination(-250, -250, -300, -250);
 
+GLuint g_textureID = 1;
+int width, height;
+int channel;
+const char* imagefiles[5] = { "wall.png", "roof.png", "ball.png", "ball1.jpg", "face.jpg"};//가져올 이미지
+GLuint texID[5];
+
+unsigned char* LoadMeshFromFile(const char* texFile) //이미지 정보 읽어오는 함수
+{
+    GLuint texture;
+    glGenTextures(1, &texture);
+    FILE* fp = NULL;
+    if (fopen_s(&fp, texFile, "rb")) {
+        printf("ERROR : No %s. \n fail to bind %d\n", texFile, texture);
+        return (unsigned char*)false;
+    }
+
+    unsigned char* image = stbi_load_from_file(fp, &width, &height, &channel, 4); //이미지 너비, 높이, 컬러채널의 수
+    fclose(fp);
+    return image;
+}
+
+
+
+void init()
+{
+
+    // LOAD TEXTURES
+
+    /*wallImageData.data = stbi_load("wall.jpg", &(wallImageData.width), &(wallImageData.height), &(wallImageData.nrChannels), 0);
+    glGenTextures(1, &(wallImageData.texture));*/
+
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(5, texID); //(텍스처 개수, 텍스처 저장공간)
+
+    for (int i = 0; i < 5; i++)
+    {
+        unsigned char* bitmap;
+        bitmap = LoadMeshFromFile((char*)imagefiles[i]);
+        glBindTexture(GL_TEXTURE_2D, texID[i]);
+        //gluBuild2DMipmaps(GL_TEXTURE_2D, channel, width, height, 4, GL_UNSIGNED_BYTE, bitmap);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //2D 텍스처, 확대될 때 LINEAR필터적용(픽셀이 덜 보여 매끄러운 결과 산출)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //2D 텍스처, 축소될 때 LINEAR필터적용(픽셀이 덜 보여 매끄러운 결과 산출)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap);
+        free(bitmap);
+    }
+
+
+    //codes for initialization
+    drawgrid = 1;
+    drawaxes = 1;
+    cameraHeight = 150.0;
+    cameraAngle = 1.0;
+    angle = 0;
+    debug = 0;
+    //clear the screen
+    glClearColor(0, 0, 0, 0);
+
+    /************************
+    / set-up projection here
+    ************************/
+    //load the PROJECTION matrix
+    glMatrixMode(GL_PROJECTION);
+
+    //initialize the matrix
+    glLoadIdentity();
+
+    //give PERSPECTIVE parameters
+    gluPerspective(80, 1, 1, 1000.0);
+    //field of view in the Y (vertically)
+    //aspect ratio that determines the field of view in the X direction (horizontally)
+    //near distance
+    //far distance
+}
+
 void drawAxes()
 {
     if (drawaxes == 1)
@@ -197,14 +271,22 @@ void drawSphere(double radius, int slices, int stacks)
             glBegin(GL_QUADS);
             {
                 //upper hemisphere
+                
                 glVertex3f(points[i][j].x, points[i][j].y, points[i][j].z);
+                
                 glVertex3f(points[i][j + 1].x, points[i][j + 1].y, points[i][j + 1].z);
+                
                 glVertex3f(points[i + 1][j + 1].x, points[i + 1][j + 1].y, points[i + 1][j + 1].z);
+                
                 glVertex3f(points[i + 1][j].x, points[i + 1][j].y, points[i + 1][j].z);
                 //lower hemisphere
+                
                 glVertex3f(points[i][j].x, points[i][j].y, -points[i][j].z);
+                
                 glVertex3f(points[i][j + 1].x, points[i][j + 1].y, -points[i][j + 1].z);
+                
                 glVertex3f(points[i + 1][j + 1].x, points[i + 1][j + 1].y, -points[i + 1][j + 1].z);
+                
                 glVertex3f(points[i + 1][j].x, points[i + 1][j].y, -points[i + 1][j].z);
             }
             glEnd();
@@ -212,12 +294,12 @@ void drawSphere(double radius, int slices, int stacks)
     }
 }
 
-void drawWallGeneric(double ax, double ay, double bx, double by, double height, double width)
+void drawWallGeneric(double ax, double ay, double bx, double by, double height, double width, float sz, float sx)
 {
 
     glEnable(GL_TEXTURE_2D);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, wallImageData.data);
+    /*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, wallImageData.data);
 
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -225,9 +307,12 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    glColor3f(1, 1, 1);
-    glBindTexture(GL_TEXTURE_2D, wallImageData.texture);
+    glColor3f(1, 1, 1);*/
+    //glBindTexture(GL_TEXTURE_2D, wallImageData.texture);
 
+    glColor3f(1, 1, 1);
+
+    //glBindTexture(GL_TEXTURE_2D, texID[0]);
 
 
     double dis = sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
@@ -253,14 +338,33 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
 
-            glTexCoord3f(0, 0, 0);
+            /*glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
-            glTexCoord3f(height*2, 0, 0);
+            glTexCoord3f(height/20.0, 0, 0);
             glVertex3f(bx, by, 0);
-            glTexCoord3f(height*2, width, 0);
+            glTexCoord3f(height / 20.0, width / 20.0, 0);
             glVertex3f(bx, by, height);
-            glTexCoord3f(0, width, 0);
-            glVertex3f(ax, ay, height);
+            glTexCoord3f(0, width / 20.0, 0);
+            glVertex3f(ax, ay, height);*/
+
+            glTexCoord3f(0, 0, 0);
+            glVertex3f(ax, ay, 0);//좌하단
+            glTexCoord3f(sz, 0, 0);
+            glVertex3f(bx, by, 0);//우하단
+            glTexCoord3f(sz, sx, 0);
+            glVertex3f(bx, by, height);//우상단
+            glTexCoord3f(0, sx, 0);
+            glVertex3f(ax, ay, height);//좌상단
+
+            /*glNormal3f(0.0, 1.0, 0.0);
+            glTexCoord2d(1.0, 1.0);
+            glVertex3f(21.0f, 0.0f, -21.0f);
+            glTexCoord2d(0.0, 1.0);
+            glVertex3f(-21.0f, 0.0f, -21.0f);
+            glTexCoord2d(0.0, 0.0);
+            glVertex3f(-21.0f, 0.0f, 21.0f);
+            glTexCoord2d(1.0, 0.0);
+            glVertex3f(21.0f, 0.0f, 21.0f);*/
         }
         glEnd();
     }
@@ -271,13 +375,13 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
         //glTranslatef(width,0,0);
         glBegin(GL_QUADS);
         {
-            //glTexCoord3f(0, 0, 0);
+            glTexCoord3f(0, 0, 0);
             glVertex3f(x1, y1, 0);
-            //glTexCoord3f(1, 0, 0);
+            glTexCoord3f(sz, 0, 0);
             glVertex3f(x2, y2, 0);
-            //glTexCoord3f(1, 1, 0);
+            glTexCoord3f(sz, sx, 0);
             glVertex3f(x2, y2, height);
-            //glTexCoord3f(0, 1, 0);
+            glTexCoord3f(0, sx, 0);
             glVertex3f(x1, y1, height);
         }
         glEnd();
@@ -285,15 +389,20 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     glPopMatrix();
 
 
-
+    //킹바갓닥
+    //a.k.a 윗면
     glPushMatrix();
     {
         glTranslatef(0, 0, height);
         glBegin(GL_QUADS);
         {
+            glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
+            glTexCoord3f(sz, 0, 0);
             glVertex3f(bx, by, 0);
+            glTexCoord3f(sz, sx, 0);
             glVertex3f(x2, y2, 0);
+            glTexCoord3f(0, sx, 0);
             glVertex3f(x1, y1, 0);
         }
         glEnd();
@@ -306,9 +415,13 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
+            glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
+            glTexCoord3f(sz, 0, 0);
             glVertex3f(bx, by, 0);
+            glTexCoord3f(sz, sx, 0);
             glVertex3f(x2, y2, 0);
+            glTexCoord3f(0, sx, 0);
             glVertex3f(x1, y1, 0);
         }
         glEnd();
@@ -320,9 +433,13 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
+            glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
+            glTexCoord3f(sz, 0, 0);
             glVertex3f(ax, ay, height);
+            glTexCoord3f(sz, sx, 0);
             glVertex3f(x1, y1, height);
+            glTexCoord3f(0, sx, 0);
             glVertex3f(x1, y1, 0);
         }
         glEnd();
@@ -334,9 +451,13 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
+            glTexCoord3f(0, 0, 0);
             glVertex3f(bx, by, 0);
+            glTexCoord3f(sz, 0, 0);
             glVertex3f(bx, by, height);
+            glTexCoord3f(sz, sx, 0);
             glVertex3f(x2, y2, height);
+            glTexCoord3f(0, sx, 0);
             glVertex3f(x2, y2, 0);
         }
         glEnd();
@@ -407,8 +528,11 @@ void drawOrion()
 void buildTheMaze()
 {
     //draw destination
+    glPushMatrix();
     glColor3f(0.0, 0.0, 1.0);
-    drawWallGeneric(destination.a.x, destination.a.y, destination.b.x, destination.b.y, 50, 50);
+    glBindTexture(GL_TEXTURE_2D, texID[4]);
+    drawWallGeneric(destination.a.x, destination.a.y, destination.b.x, destination.b.y, 50, 50, 1, 1);
+    glPopMatrix();
     //draw player position
     glPushMatrix();
     {
@@ -418,40 +542,42 @@ void buildTheMaze()
     }
     glPopMatrix();
 
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, texID[0]);
     glColor3f(1.0, 0.0, 0.0);
     //border
-    drawWallGeneric(-500, -500, -500, 500, 52, 15);
-    drawWallGeneric(-500, -500, 500, -500, 52, 15);
-    drawWallGeneric(500, 500, -500, 500, 52, 15);
-    drawWallGeneric(500, 500, 500, -70, 52, 15);
-    drawWallGeneric(500, -500, 500, -150, 52, 15);
+    drawWallGeneric(-500, -500, -500, 500, 52, 15, 10, 1);
+    drawWallGeneric(-500, -500, 500, -500, 52, 15, 10, 1);
+    drawWallGeneric(500, 500, -500, 500, 52, 15, 10, 1);
+    drawWallGeneric(500, 500, 500, -70, 52, 15, 10, 1);
+    drawWallGeneric(500, -500, 500, -150, 52, 15, 10, 1);
     //main maze
-    drawWallGeneric(400, 350, 400, 0, 52, 15);
-    drawWallGeneric(400, 400, 0, 400, 52, 15);
-    drawWallGeneric(400, 300, 300, 300, 52, 15);
-    drawWallGeneric(300, 300, 300, 350, 52, 15);
-    drawWallGeneric(-100, 0, 400, 0, 52, 15);
-    drawWallGeneric(-200, -70, 500, -70, 52, 15);
-    drawWallGeneric(-200, -70, -200, 200, 52, 15);
-    drawWallGeneric(-200, 200, 200, 200, 52, 15);
-    drawWallGeneric(200, 250, 400, 200, 52, 15);
-    drawWallGeneric(-50, 500, -50, 300, 52, 15);
-    drawWallGeneric(0, 400, 0, 250, 52, 15);
-    drawWallGeneric(0, 250, -200, 250, 52, 15);
-    drawWallGeneric(-200, 250, -200, 500, 52, 15);
-    drawWallGeneric(-300, -150, 500, -150, 52, 15);
-    drawWallGeneric(-300, -150, -300, 450, 52, 15);
-    drawWallGeneric(300, 80, -100, 80, 52, 15);
-    drawWallGeneric(-380, 500, -380, 150, 52, 15);
-    drawWallGeneric(-380, 100, -380, -300, 52, 15);
-    drawWallGeneric(-380, -300, -380, -330, 52, 15);
-    drawWallGeneric(-380, -100, -300, -100, 52, 15);
-    drawWallGeneric(-380, -330, 400, -330, 52, 15);
-    drawWallGeneric(-200, -250, 300, -250, 52, 15);
-    drawWallGeneric(-200, -250, -200, -170, 52, 15);
-    drawWallGeneric(-300, -400, 400, -400, 52, 15);
-    drawWallGeneric(400, -330, 400, -400, 52, 15);
-
+    drawWallGeneric(400, 350, 400, 0, 52, 15, 7, 1);
+    drawWallGeneric(400, 400, 0, 400, 52, 15, 8, 1);
+    drawWallGeneric(400, 300, 300, 300, 52, 15, 1, 1);
+    drawWallGeneric(300, 300, 300, 350, 52, 15, 1, 1);
+    drawWallGeneric(-100, 0, 400, 0, 52, 15, 5, 1);
+    drawWallGeneric(-200, -70, 500, -70, 52, 15, 6, 1);
+    drawWallGeneric(-200, -70, -200, 200, 52, 15, 3, 1);
+    drawWallGeneric(-200, 200, 200, 200, 52, 15, 4, 1);
+    drawWallGeneric(200, 250, 400, 200, 52, 15, 6, 1);
+    drawWallGeneric(-50, 500, -50, 300, 52, 15, 2, 1);
+    drawWallGeneric(0, 400, 0, 250, 52, 15, 3, 1);
+    drawWallGeneric(0, 250, -200, 250, 52, 15, 2, 1);
+    drawWallGeneric(-200, 250, -200, 500, 52, 15, 3, 1);
+    drawWallGeneric(-300, -150, 500, -150, 52, 15, 5, 1);
+    drawWallGeneric(-300, -150, -300, 450, 52, 15, 6, 1);
+    drawWallGeneric(300, 80, -100, 80, 52, 15, 2, 1);
+    drawWallGeneric(-380, 500, -380, 150, 52, 15, 3, 1);
+    drawWallGeneric(-380, 100, -380, -300, 52, 15, 2, 1);
+    drawWallGeneric(-380, -300, -380, -330, 52, 15, 1, 1);
+    drawWallGeneric(-380, -100, -300, -100, 52, 15, 1, 1);
+    drawWallGeneric(-380, -330, 400, -330, 52, 15, 7, 1);
+    drawWallGeneric(-200, -250, 300, -250, 52, 15, 2, 1);
+    drawWallGeneric(-200, -250, -200, -170, 52, 15, 1, 1);
+    drawWallGeneric(-300, -400, 400, -400, 52, 15, 2, 1);
+    drawWallGeneric(400, -330, 400, -400, 52, 15, 2, 1);
+    glPopMatrix();
 
 
 
@@ -519,6 +645,7 @@ bool flag_angle1 = false;
 bool flag_angle2 = false;
 bool flag_angle3 = false;
 bool flag_angle4 = false;
+int rotation = 0;
 
 void drawSS()
 {
@@ -528,37 +655,83 @@ void drawSS()
 
         glViewport(0, 0, 600, 500);
         glColor3f(0.30, 0.20, 0.10);   //ground
-        drawWallGeneric(-500, -500, -500, 500, 0, 1000);
+
+        glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, texID[1]);
+        drawWallGeneric(-500, -500, -500, 500, 0, 1000, 10, 10);
+        glPopMatrix();
 
         //if (mapFlag == 0) {
         //지붕
-        /*glPushMatrix();
+        
+        glPushMatrix();
+        //glBindTexture(GL_TEXTURE_2D, texID[0]);
+        glBindTexture(GL_TEXTURE_2D, texID[0]);
         glTranslatef(0, 0, 50);
-        drawWallGeneric(-501, -501, -501, 501, 0, 1000);
+        drawWallGeneric(-501, -501, -501, 501, 0, 1000, 10, 10);
+        glPopMatrix();
+
+        /*glPushMatrix();
+
+        int ax = -501, ay = -501, bx = -501, by = 501;
+        double dis = sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
+        double x1, y1, x2, y2;
+        x1 = ax + width * (by - ay) / dis;
+        y1 = ay + width * (ax - bx) / dis;
+        x2 = bx + width * (by - ay) / dis;
+        y2 = by + width * (ax - bx) / dis;
+
+        glColor3f(0.0, 0.0, 1.0);
+        glTranslatef(0, 0, 51);
+        
+        glBegin(GL_QUADS);
+        {
+            
+            glVertex3f(ax, ax, 0);
+            
+            glVertex3f(bx, by, 0);
+            
+            glVertex3f(x2, y2, 0);
+            
+            glVertex3f(x1, y1, 0);
+        }
+        glEnd();
+
         glPopMatrix();*/
         //}
         glColor3f(0.0, 0.0, 1.0);
-        drawWallGeneric(500, -85, 500, -150, 52, 5);
+        drawWallGeneric(500, -85, 500, -150, 52, 5, 1, 1);
 
         glColor3f(1, 1, 1);
 
+        GLUquadricObj* earth;
+        earth = gluNewQuadric();
+        gluQuadricDrawStyle(earth, GLU_FILL);
+        gluQuadricTexture(earth, GL_TRUE);
+
+        
         //이동하는 구 장애물
         glPushMatrix();
         {   
             if (tmpY > -80 && flag == false) {
                 tmpY -= 1;
+                rotation += 8;
             }
             if (tmpY <= -80) {
                 flag = true;
             }
             if (flag == true) {
                 tmpY += 1;
+                rotation -= 8;
             }
             if (tmpY >= 550) {
                 flag = false;
             }
+            
             glTranslatef(-340, tmpY, 25);
-            drawSphere(25, 50, 50);
+            glRotatef(rotation, 1, 0, 0);
+            glBindTexture(GL_TEXTURE_2D, texID[3]);
+            gluSphere(earth, 20, 100, 100);
         }
         glPopMatrix();
         
@@ -626,13 +799,13 @@ void drawSS()
         glPushMatrix();
         {
             if (rotate_angle < 60 && flag_angle == false) {
-                rotate_angle += 0.1;
+                rotate_angle += 1;
             }
             if (rotate_angle >= 60) {
                 flag_angle = true;
             }
             if (flag_angle == true) {
-                rotate_angle -= 0.1;
+                rotate_angle -= 1;
             }
             if (rotate_angle <= -60) {
                 flag_angle = false;
@@ -641,7 +814,8 @@ void drawSS()
             glRotatef(rotate_angle, 1, 0, 0);
             glTranslatef(0, 0, -30);
             drawAxes();
-            drawSphere(25, 50, 50);
+            glBindTexture(GL_TEXTURE_2D, texID[2]);
+            gluSphere(earth, 20, 100, 100);
         }
         glPopMatrix();
 
@@ -649,13 +823,13 @@ void drawSS()
         glPushMatrix();
         {
             if (rotate_angle1 < 60 && flag_angle1 == false) {
-                rotate_angle1 += 0.1;
+                rotate_angle1 += 1;
             }
             if (rotate_angle1 >= 60) {
                 flag_angle1 = true;
             }
             if (flag_angle1 == true) {
-                rotate_angle1 -= 0.1;
+                rotate_angle1 -= 1;
             }
             if (rotate_angle1 <= -60) {
                 flag_angle1 = false;
@@ -664,7 +838,8 @@ void drawSS()
             glRotatef(rotate_angle1, 1, 0, 0);
             glTranslatef(0, 0, -30);
             drawAxes();
-            drawSphere(25, 50, 50);
+            glBindTexture(GL_TEXTURE_2D, texID[2]);
+            gluSphere(earth, 20, 100, 100);
         }
         glPopMatrix();
 
@@ -672,13 +847,13 @@ void drawSS()
         glPushMatrix();
         {
             if (rotate_angle2 < 60 && flag_angle2 == false) {
-                rotate_angle2 += 0.1;
+                rotate_angle2 += 1;
             }
             if (rotate_angle2 >= 60) {
                 flag_angle2 = true;
             }
             if (flag_angle2 == true) {
-                rotate_angle2 -= 0.1;
+                rotate_angle2 -= 1;
             }
             if (rotate_angle2 <= -60) {
                 flag_angle2 = false;
@@ -687,7 +862,8 @@ void drawSS()
             glRotatef(rotate_angle2, 1, 0, 0);
             glTranslatef(0, 0, -30);
             drawAxes();
-            drawSphere(25, 50, 50);
+            glBindTexture(GL_TEXTURE_2D, texID[2]);
+            gluSphere(earth, 20, 100, 100);
         }
         glPopMatrix();
 
@@ -695,13 +871,13 @@ void drawSS()
         glPushMatrix();
         {
             if (rotate_angle3 < 60 && flag_angle3 == false) {
-                rotate_angle3 += 0.1;
+                rotate_angle3 += 1;
             }
             if (rotate_angle3 >= 60) {
                 flag_angle3 = true;
             }
             if (flag_angle3 == true) {
-                rotate_angle3 -= 0.1;
+                rotate_angle3 -= 1;
             }
             if (rotate_angle3 <= -60) {
                 flag_angle3 = false;
@@ -710,7 +886,8 @@ void drawSS()
             glRotatef(rotate_angle3, 1, 0, 0);
             glTranslatef(0, 0, -30);
             drawAxes();
-            drawSphere(25, 50, 50);
+            glBindTexture(GL_TEXTURE_2D, texID[2]);
+            gluSphere(earth, 20, 100, 100);
         }
         glPopMatrix();
 
@@ -718,13 +895,13 @@ void drawSS()
         glPushMatrix();
         {
             if (rotate_angle4 < 60 && flag_angle4 == false) {
-                rotate_angle4 += 0.1;
+                rotate_angle4 += 1;
             }
             if (rotate_angle4 >= 60) {
                 flag_angle4 = true;
             }
             if (flag_angle4 == true) {
-                rotate_angle4 -= 0.1;
+                rotate_angle4 -= 1;
             }
             if (rotate_angle4 <= -60) {
                 flag_angle4 = false;
@@ -733,7 +910,8 @@ void drawSS()
             glRotatef(rotate_angle4, 1, 0, 0);
             glTranslatef(0, 0, -30);
             drawAxes();
-            drawSphere(25, 50, 50);
+            glBindTexture(GL_TEXTURE_2D, texID[2]);
+            gluSphere(earth, 20, 100, 100);
         }
         glPopMatrix();
 
@@ -1105,39 +1283,6 @@ void animate()
     glutPostRedisplay();
 }
 
-void init()
-{
-
-    // LOAD TEXTURES
-    wallImageData.data = stbi_load("wall.jpg", &(wallImageData.width), &(wallImageData.height), &(wallImageData.nrChannels), 0);
-    glGenTextures(1, &(wallImageData.texture));
-
-    //codes for initialization
-    drawgrid = 1;
-    drawaxes = 1;
-    cameraHeight = 150.0;
-    cameraAngle = 1.0;
-    angle = 0;
-    debug = 0;
-    //clear the screen
-    glClearColor(0, 0, 0, 0);
-
-    /************************
-    / set-up projection here
-    ************************/
-    //load the PROJECTION matrix
-    glMatrixMode(GL_PROJECTION);
-
-    //initialize the matrix
-    glLoadIdentity();
-
-    //give PERSPECTIVE parameters
-    gluPerspective(80, 1, 1, 1000.0);
-    //field of view in the Y (vertically)
-    //aspect ratio that determines the field of view in the X direction (horizontally)
-    //near distance
-    //far distance
-}
 
 void destroy() {
     stbi_image_free(wallImageData.data);

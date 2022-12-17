@@ -16,6 +16,10 @@
 #include "stb_image.h"
 
 #define pi 3.141529
+#define	PI   3.1415926
+#define	N    36   	// Number of parameter “theta” 
+#define	M    18   	// Number of parameter “phi” 	
+
 // const int font = (int)GLUT_BITMAP_9_BY_15;
 const int font = (int)GLUT_BITMAP_9_BY_15;
 double cubeLen = 35, sphereRad = 7;
@@ -32,6 +36,12 @@ int start = clock();
 int sec, mn = 0, hour = 0;
 int gameOver = 0;
 std::string strSec, strMn, strHour, cout;
+
+float	theta, phi;
+float	delta_theta, delta_phi;
+float	start_theta, start_phi;
+float	Radius = 1.0;
+float 	ver[N][M + 1][3];
 
 struct ImageData {
     int width;
@@ -106,12 +116,54 @@ vec temp_pos(1000, 1000, 1000);
 vec temp_l(0, 0, 0);
 Moon moon(-200, -200, 200, 20);
 Destination destination(-250, -250, -300, -250);
+float light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+float light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+float light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+float light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+
+void 	VertexGeneration(void) {
+    start_theta = 0.0;
+    delta_theta = 2.0 * PI / N;
+
+    start_phi = -1.0 * PI / 2.0;
+    delta_phi = 1.0 * PI / M;
+
+    for (int j = 0; j <= M; j++) {			// phi (위도)
+        for (int i = 0; i < N; i++) { 		// theta (경도)
+            theta = start_theta + i * delta_theta;
+            phi = start_phi + j * delta_phi;
+            ver[i][j][0] = Radius * cos(phi) * cos(theta);
+            ver[i][j][1] = Radius * cos(phi) * sin(theta);
+            ver[i][j][2] = Radius * sin(phi);
+        }
+    }
+}
+
+void	Modify_Vertex(void) {
+
+    float	length;
+
+    for (int j = 0; j <= M; j++) {
+        for (int i = 0; i < N; i++) {
+            if (fabs(ver[i][j][2]) < 0.5) {
+                length = (4.0 * sqrt(3.0) - 1.0) / 2.0 * fabs(ver[i][j][2])
+                    * fabs(ver[i][j][2]) + 1 / 8.0;
+                ver[i][j][0] *= length;
+                ver[i][j][1] *= length;
+            }
+        }
+    }
+}
+
 
 GLuint g_textureID = 1;
 int width, height;
 int channel;
-const char* imagefiles[5] = { "wall.png", "roof.png", "ball.png", "ball1.jpg", "face.jpg"};//가져올 이미지
+const char* imagefiles[5] = { "wall.png", "roof.png", "ball.png", "ball1.jpg", "gold.png"};//가져올 이미지
 GLuint texID[5];
+
+
 
 unsigned char* LoadMeshFromFile(const char* texFile) //이미지 정보 읽어오는 함수
 {
@@ -179,23 +231,53 @@ void init()
     //aspect ratio that determines the field of view in the X direction (horizontally)
     //near distance
     //far distance
+
+    glShadeModel(GL_SMOOTH);      //GL_FLAT 
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+    glEnable(GL_DEPTH_TEST);
+    VertexGeneration();
+    Modify_Vertex();
+}
+
+void 	reshape(int w, int h) {
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0, 1.0, 1.0, 1000);
+}
+
+void 	cameraSetting(void) {
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(2.0 * Radius, 2.0 * Radius, 2.0 * Radius,
+        0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 }
 
 void drawAxes()
 {
     if (drawaxes == 1)
     {
+        glLineWidth(10.0);
+
         glColor3f(1.0, 1.0, 1.0);
         glBegin(GL_LINES);
         {
-            glVertex3f(100, 0, 0);
+            /*glVertex3f(100, 0, 0);
             glVertex3f(-100, 0, 0);
 
             glVertex3f(0, -100, 0);
-            glVertex3f(0, 100, 0);
+            glVertex3f(0, 100, 0);*/
 
             glVertex3f(0, 0, 100);
-            glVertex3f(0, 0, -100);
+            glVertex3f(0, 0, 0);
         }
         glEnd();
     }
@@ -323,7 +405,6 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     y2 = by + width * (ax - bx) / dis;
     
 
-
     glPushMatrix();
     {
         glBegin(GL_POLYGON);
@@ -347,12 +428,16 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
             glTexCoord3f(0, width / 20.0, 0);
             glVertex3f(ax, ay, height);*/
 
+            glNormal3f(0, 0, 1);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);//좌하단
+            glNormal3f(0, 0, 1);
             glTexCoord3f(sz, 0, 0);
             glVertex3f(bx, by, 0);//우하단
+            glNormal3f(0, 0, 1);
             glTexCoord3f(sz, sx, 0);
             glVertex3f(bx, by, height);//우상단
+            glNormal3f(0, 0, 1);
             glTexCoord3f(0, sx, 0);
             glVertex3f(ax, ay, height);//좌상단
 
@@ -465,11 +550,8 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     glPopMatrix();
 
 
-
-
-
-
 }
+
 void drawOrion()
 {
 
@@ -531,7 +613,7 @@ void buildTheMaze()
     glPushMatrix();
     glColor3f(0.0, 0.0, 1.0);
     glBindTexture(GL_TEXTURE_2D, texID[4]);
-    drawWallGeneric(destination.a.x, destination.a.y, destination.b.x, destination.b.y, 50, 50, 1, 1);
+    drawWallGeneric(destination.a.x, destination.a.y, destination.b.x, destination.b.y, 30, 30, 1, 1);
     glPopMatrix();
     //draw player position
     glPushMatrix();
@@ -619,6 +701,7 @@ void output(int x, int y, int z, float r, float g, float b, int portX, int portY
         glutBitmapCharacter(font, str[i]);
     }
 }
+
 bool isGameOver()
 {
     if (destination.a.x >= pos.x && destination.b.x <= pos.x && destination.a.y <= pos.y && destination.b.y + 50 >= pos.y)
@@ -632,7 +715,7 @@ bool isGameOver()
 
 
 float tmpY = 500;
-float tmpZ = -25;
+float tmpZ = -50;
 float rotate_angle = 0;
 float rotate_angle1 = 60;
 float rotate_angle2 = 0;
@@ -646,6 +729,7 @@ bool flag_angle2 = false;
 bool flag_angle3 = false;
 bool flag_angle4 = false;
 int rotation = 0;
+bool crash = false;
 
 void drawSS()
 {
@@ -653,7 +737,7 @@ void drawSS()
     if (!isGameOver())
     {
 
-        glViewport(0, 0, 600, 500);
+        glViewport(0, 0, 720, 720);
         glColor3f(0.30, 0.20, 0.10);   //ground
 
         glPushMatrix();
@@ -713,16 +797,17 @@ void drawSS()
         //이동하는 구 장애물
         glPushMatrix();
         {   
+            //if (destination.a.x >= pos.x && destination.b.x <= pos.x && destination.a.y <= pos.y && destination.b.y + 50 >= pos.y)
             if (tmpY > -80 && flag == false) {
                 tmpY -= 1;
-                rotation += 8;
+                rotation += 6;
             }
             if (tmpY <= -80) {
                 flag = true;
             }
             if (flag == true) {
                 tmpY += 1;
-                rotation -= 8;
+                rotation -= 6;
             }
             if (tmpY >= 550) {
                 flag = false;
@@ -732,66 +817,144 @@ void drawSS()
             glRotatef(rotation, 1, 0, 0);
             glBindTexture(GL_TEXTURE_2D, texID[3]);
             gluSphere(earth, 20, 100, 100);
+            if (-320 >= pos.x && -360 <= pos.x && tmpY-20 <= pos.y && tmpY+20 >= pos.y) {
+                std::cout << "아야!!" << "\n";
+                temp_pos.x = pos.x;
+                temp_pos.y = pos.y;
+                temp_pos.z = pos.z;
+                temp_l.x = l.x;
+                temp_l.y = l.y;
+                temp_l.z = l.z;
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+                l.x = 0;
+                l.y = 0;
+                l.z = 0;
+                crash = true;
+                /*std::string str = "어휴 ㅉㅉ";
+                output(0, 0, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str);*/
+
+                //angle = 0;
+                //l.x = l.x * cos(angle) + u.x * sin(angle);
+                //l.y = l.y * cos(angle) + u.y * sin(angle);
+                //l.z = l.z * cos(angle) + u.z * sin(angle);
+                ////now, u=r*l
+                //u.x = r.y * l.z - r.z * l.y;
+                //u.y = r.z * l.x - r.x * l.z;
+                //u.z = r.x * l.y - r.y * l.x;
+            }
         }
         glPopMatrix();
         
         //바닥에서 올라오는 가시1
         glPushMatrix();
         {
-            if (tmpZ < 0 && flag_ == false) {
-                tmpZ += 0.01;
+            if (tmpZ < 5 && flag_ == false) {
+                tmpZ += 0.1;
             }
-            if (tmpZ >= 0) {
+            if (tmpZ >= 5) {
                 flag_ = true;
             }
             if (flag_ == true) {
-                tmpZ -= 0.01;
+                tmpZ -= 0.1;
             }
-            if (tmpZ <= -25) {
+            if (tmpZ <= -50) {
                 flag_ = false;
             }
             glTranslatef(-30, 225, tmpZ);
-            glutSolidCone(10, 25, 20, 50);
+            glColor3d(100, 100, 100);
+            glutSolidCone(5, 30, 20, 50);
+            if (-15 >= pos.x && -45 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 >= pos.z) {
+                std::cout << "아야!!" << "\n";
+                temp_pos.x = pos.x;
+                temp_pos.y = pos.y;
+                temp_pos.z = pos.z;
+                temp_l.x = l.x;
+                temp_l.y = l.y;
+                temp_l.z = l.z;
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+                l.x = 0;
+                l.y = 0;
+                l.z = 0;
+                crash = true;
+            }
         }
         glPopMatrix();
+        
         
         //바닥에서 올라오는 가시2
         glPushMatrix();
         {
-            if (tmpZ < 0 && flag_ == false) {
-                tmpZ += 0.01;
+            if (tmpZ < 5 && flag_ == false) {
+                tmpZ += 0.1;
             }
-            if (tmpZ >= 0) {
+            if (tmpZ >= 5) {
                 flag_ = true;
             }
             if (flag_ == true) {
-                tmpZ -= 0.01;
+                tmpZ -= 0.1;
             }
-            if (tmpZ <= -25) {
+            if (tmpZ <= -50) {
                 flag_ = false;
             }
-            glTranslatef(-70, 230, tmpZ);
-            glutSolidCone(10, 25, 20, 50);
+            glTranslatef(-90, 230, tmpZ);
+            glColor3d(100, 100, 100);
+            glutSolidCone(5, 30, 20, 50);
+            if (-75 >= pos.x && -105 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
+                std::cout << "아야!!" << "\n";
+                temp_pos.x = pos.x;
+                temp_pos.y = pos.y;
+                temp_pos.z = pos.z;
+                temp_l.x = l.x;
+                temp_l.y = l.y;
+                temp_l.z = l.z;
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+                l.x = 0;
+                l.y = 0;
+                l.z = 0;
+            }
         }
         glPopMatrix();
+        
 
         //바닥에서 올라오는 가시3
         glPushMatrix();
         {
-            if (tmpZ < 0 && flag_ == false) {
-                tmpZ += 0.01;
+            if (tmpZ < 5 && flag_ == false) {
+                tmpZ += 0.1;
             }
-            if (tmpZ >= 0) {
+            if (tmpZ >= 5) {
                 flag_ = true;
             }
             if (flag_ == true) {
-                tmpZ -= 0.01;
+                tmpZ -= 0.1;
             }
-            if (tmpZ <= -25) {
+            if (tmpZ <= -50) {
                 flag_ = false;
             }
-            glTranslatef(-110, 225, tmpZ);
-            glutSolidCone(10, 25, 20, 50);
+            glTranslatef(-150, 225, tmpZ);
+            glColor3d(100, 100, 100);
+            glutSolidCone(5, 30, 20, 50);
+            if (-135 >= pos.x && -165 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
+                std::cout << "아야!!" << "\n";
+                temp_pos.x = pos.x;
+                temp_pos.y = pos.y;
+                temp_pos.z = pos.z;
+                temp_l.x = l.x;
+                temp_l.y = l.y;
+                temp_l.z = l.z;
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+                l.x = 0;
+                l.y = 0;
+                l.z = 0;
+            }
         }
         glPopMatrix();
 
@@ -815,7 +978,7 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 20, 100, 100);
+            gluSphere(earth, 15, 100, 100);
         }
         glPopMatrix();
 
@@ -839,7 +1002,7 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 20, 100, 100);
+            gluSphere(earth, 15, 100, 100);
         }
         glPopMatrix();
 
@@ -863,7 +1026,7 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 20, 100, 100);
+            gluSphere(earth, 15, 100, 100);
         }
         glPopMatrix();
 
@@ -887,7 +1050,7 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 20, 100, 100);
+            gluSphere(earth, 15, 100, 100);
         }
         glPopMatrix();
 
@@ -911,7 +1074,7 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 20, 100, 100);
+            gluSphere(earth, 15, 100, 100);
         }
         glPopMatrix();
 
@@ -971,6 +1134,7 @@ void keyboardListener(unsigned char key, int x, int y)
             l.x = u.y * r.z - u.z * r.y;
             l.y = u.z * r.x - u.x * r.z;
             l.z = u.x * r.y - u.y * r.x;
+            crash = false;
             break;
 
         case '2':
@@ -982,6 +1146,7 @@ void keyboardListener(unsigned char key, int x, int y)
             l.x = u.y * r.z - u.z * r.y;
             l.y = u.z * r.x - u.x * r.z;
             l.z = u.x * r.y - u.y * r.x;
+            crash = false;
             break;
             //case '3'://look up
             //    angle = 0.05;
@@ -1081,7 +1246,7 @@ int MinMoveY = -485;
 
 void specialKeyListener(int key, int x, int y)
 {
-    if (gameOver == 0)
+    if (gameOver == 0 && crash == false)
     {
         if (pos.x >= MaxMoveX) {
             pos.x = MaxMoveX;
@@ -1197,7 +1362,7 @@ void display()
     ///load the correct matrix -- MODEL-VIEW matrix
     //glViewport(0, 0, 500, 500);
     glMatrixMode(GL_MODELVIEW);
-
+    cameraSetting();
     ///initialize the matrix
     glLoadIdentity();
 
@@ -1244,6 +1409,7 @@ void display()
 
 
     //ADD this line in the end --- if you use double buffer (i.e. GL_DOUBLE)
+    glFlush();
     glutSwapBuffers();
 }
 
@@ -1291,7 +1457,7 @@ void destroy() {
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
-    glutInitWindowSize(600, 500);
+    glutInitWindowSize(720, 720);
     glutInitWindowPosition(0, 0);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);	//Depth, Double buffer, RGB color
 
@@ -1303,6 +1469,7 @@ int main(int argc, char** argv)
 
     glutDisplayFunc(display);	//display callback function
     glutIdleFunc(animate);		//what you want to do in the idle time (when no drawing is occuring)
+    glutReshapeFunc(reshape);
 
     glutKeyboardFunc(keyboardListener);
     glutSpecialFunc(specialKeyListener);

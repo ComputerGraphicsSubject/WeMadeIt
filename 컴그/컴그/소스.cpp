@@ -116,10 +116,11 @@ vec temp_pos(1000, 1000, 1000);
 vec temp_l(0, 0, 0);
 Moon moon(-200, -200, 200, 20);
 Destination destination(-250, -250, -300, -250);
-float light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
-float light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
-float light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-float light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+//float light_position[];
+//float light_ambient[];
+//float light_diffuse[];
+//float light_specular[];
 
 
 void 	VertexGeneration(void) {
@@ -226,25 +227,15 @@ void init()
     glLoadIdentity();
 
     //give PERSPECTIVE parameters
-    gluPerspective(80, 1, 1, 1000.0);
+    gluPerspective(100, 1, 1, 1000.0);
     //field of view in the Y (vertically)
     //aspect ratio that determines the field of view in the X direction (horizontally)
     //near distance
     //far distance
 
-    glShadeModel(GL_SMOOTH);      //GL_FLAT 
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
-    glEnable(GL_DEPTH_TEST);
-    VertexGeneration();
-    Modify_Vertex();
+    /*VertexGeneration();
+    Modify_Vertex();*/
 }
 
 void 	reshape(int w, int h) {
@@ -263,24 +254,21 @@ void 	cameraSetting(void) {
 
 void drawAxes()
 {
-    if (drawaxes == 1)
+    glLineWidth(10.0);
+
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_LINES);
     {
-        glLineWidth(10.0);
+        /*glVertex3f(100, 0, 0);
+        glVertex3f(-100, 0, 0);
 
-        glColor3f(1.0, 1.0, 1.0);
-        glBegin(GL_LINES);
-        {
-            /*glVertex3f(100, 0, 0);
-            glVertex3f(-100, 0, 0);
+        glVertex3f(0, -100, 0);
+        glVertex3f(0, 100, 0);*/
 
-            glVertex3f(0, -100, 0);
-            glVertex3f(0, 100, 0);*/
-
-            glVertex3f(0, 0, 100);
-            glVertex3f(0, 0, 0);
-        }
-        glEnd();
+        glVertex3f(0, 0, 100);
+        glVertex3f(0, 0, 0);
     }
+    glEnd();   
 }
 
 
@@ -407,7 +395,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
     glPushMatrix();
     {
-        glBegin(GL_POLYGON);
+        glBegin(GL_QUADS);
         {
 
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -428,16 +416,16 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
             glTexCoord3f(0, width / 20.0, 0);
             glVertex3f(ax, ay, height);*/
 
-            glNormal3f(0, 0, 1);
+            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);//좌하단
-            glNormal3f(0, 0, 1);
+            //glNormal3f(0, 0, 1);
             glTexCoord3f(sz, 0, 0);
             glVertex3f(bx, by, 0);//우하단
-            glNormal3f(0, 0, 1);
+            //glNormal3f(0, 0, 1);
             glTexCoord3f(sz, sx, 0);
             glVertex3f(bx, by, height);//우상단
-            glNormal3f(0, 0, 1);
+            //glNormal3f(0, 0, 1);
             glTexCoord3f(0, sx, 0);
             glVertex3f(ax, ay, height);//좌상단
 
@@ -460,6 +448,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
         //glTranslatef(width,0,0);
         glBegin(GL_QUADS);
         {
+            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(x1, y1, 0);
             glTexCoord3f(sz, 0, 0);
@@ -481,6 +470,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
         glTranslatef(0, 0, height);
         glBegin(GL_QUADS);
         {
+            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
             glTexCoord3f(sz, 0, 0);
@@ -500,6 +490,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
+           // glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
             glTexCoord3f(sz, 0, 0);
@@ -518,6 +509,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
+            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
             glTexCoord3f(sz, 0, 0);
@@ -536,6 +528,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
+            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(bx, by, 0);
             glTexCoord3f(sz, 0, 0);
@@ -819,19 +812,10 @@ void drawSS()
             gluSphere(earth, 20, 100, 100);
             if (-320 >= pos.x && -360 <= pos.x && tmpY-20 <= pos.y && tmpY+20 >= pos.y) {
                 std::cout << "아야!!" << "\n";
-                temp_pos.x = pos.x;
-                temp_pos.y = pos.y;
-                temp_pos.z = pos.z;
-                temp_l.x = l.x;
-                temp_l.y = l.y;
-                temp_l.z = l.z;
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
-                l.x = 0;
-                l.y = 0;
-                l.z = 0;
-                crash = true;
+                
                 /*std::string str = "어휴 ㅉㅉ";
                 output(0, 0, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str);*/
 
@@ -867,19 +851,9 @@ void drawSS()
             glutSolidCone(5, 30, 20, 50);
             if (-15 >= pos.x && -45 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 >= pos.z) {
                 std::cout << "아야!!" << "\n";
-                temp_pos.x = pos.x;
-                temp_pos.y = pos.y;
-                temp_pos.z = pos.z;
-                temp_l.x = l.x;
-                temp_l.y = l.y;
-                temp_l.z = l.z;
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
-                l.x = 0;
-                l.y = 0;
-                l.z = 0;
-                crash = true;
             }
         }
         glPopMatrix();
@@ -905,18 +879,9 @@ void drawSS()
             glutSolidCone(5, 30, 20, 50);
             if (-75 >= pos.x && -105 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
                 std::cout << "아야!!" << "\n";
-                temp_pos.x = pos.x;
-                temp_pos.y = pos.y;
-                temp_pos.z = pos.z;
-                temp_l.x = l.x;
-                temp_l.y = l.y;
-                temp_l.z = l.z;
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
-                l.x = 0;
-                l.y = 0;
-                l.z = 0;
             }
         }
         glPopMatrix();
@@ -942,18 +907,9 @@ void drawSS()
             glutSolidCone(5, 30, 20, 50);
             if (-135 >= pos.x && -165 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
                 std::cout << "아야!!" << "\n";
-                temp_pos.x = pos.x;
-                temp_pos.y = pos.y;
-                temp_pos.z = pos.z;
-                temp_l.x = l.x;
-                temp_l.y = l.y;
-                temp_l.z = l.z;
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
-                l.x = 0;
-                l.y = 0;
-                l.z = 0;
             }
         }
         glPopMatrix();
@@ -979,6 +935,12 @@ void drawSS()
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
             gluSphere(earth, 15, 100, 100);
+            if (-285 + sin(rotate_angle) >= pos.x && -315 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y ) {
+                std::cout << "아야!!" << "\n";
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+            }
         }
         glPopMatrix();
 
@@ -1003,6 +965,12 @@ void drawSS()
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
             gluSphere(earth, 15, 100, 100);
+            if (-135 + sin(rotate_angle) >= pos.x && -165 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+                std::cout << "아야!!" << "\n";
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+            }
         }
         glPopMatrix();
 
@@ -1027,6 +995,12 @@ void drawSS()
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
             gluSphere(earth, 15, 100, 100);
+            if (15 + sin(rotate_angle) >= pos.x && -15 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+                std::cout << "아야!!" << "\n";
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+            }
         }
         glPopMatrix();
 
@@ -1051,6 +1025,12 @@ void drawSS()
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
             gluSphere(earth, 15, 100, 100);
+            if (165 + sin(rotate_angle) >= pos.x && 135 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+                std::cout << "아야!!" << "\n";
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+            }
         }
         glPopMatrix();
 
@@ -1075,6 +1055,12 @@ void drawSS()
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
             gluSphere(earth, 15, 100, 100);
+            if (315 + sin(rotate_angle) >= pos.x && 285 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+                std::cout << "아야!!" << "\n";
+                pos.x = 450;
+                pos.y = 450;
+                pos.z = 25;
+            }
         }
         glPopMatrix();
 
@@ -1125,29 +1111,29 @@ void keyboardListener(unsigned char key, int x, int y)
         switch (key)
         {
 
-        case '1':
-            angle = 0.05;
-            r.x = r.x * cos(angle) + l.x * sin(angle);
-            r.y = r.y * cos(angle) + l.y * sin(angle);
-            r.z = r.z * cos(angle) + l.z * sin(angle);
-            //now, l=u*r
-            l.x = u.y * r.z - u.z * r.y;
-            l.y = u.z * r.x - u.x * r.z;
-            l.z = u.x * r.y - u.y * r.x;
-            crash = false;
-            break;
+        //case '1':
+        //    angle = 0.05;
+        //    r.x = r.x * cos(angle) + l.x * sin(angle);
+        //    r.y = r.y * cos(angle) + l.y * sin(angle);
+        //    r.z = r.z * cos(angle) + l.z * sin(angle);
+        //    //now, l=u*r
+        //    l.x = u.y * r.z - u.z * r.y;
+        //    l.y = u.z * r.x - u.x * r.z;
+        //    l.z = u.x * r.y - u.y * r.x;
+        //    crash = false;
+        //    break;
 
-        case '2':
-            angle = -0.05;
-            r.x = r.x * cos(angle) + l.x * sin(angle);
-            r.y = r.y * cos(angle) + l.y * sin(angle);
-            r.z = r.z * cos(angle) + l.z * sin(angle);
-            //now, l=u*r
-            l.x = u.y * r.z - u.z * r.y;
-            l.y = u.z * r.x - u.x * r.z;
-            l.z = u.x * r.y - u.y * r.x;
-            crash = false;
-            break;
+        //case '2':
+        //    angle = -0.05;
+        //    r.x = r.x * cos(angle) + l.x * sin(angle);
+        //    r.y = r.y * cos(angle) + l.y * sin(angle);
+        //    r.z = r.z * cos(angle) + l.z * sin(angle);
+        //    //now, l=u*r
+        //    l.x = u.y * r.z - u.z * r.y;
+        //    l.y = u.z * r.x - u.x * r.z;
+        //    l.z = u.x * r.y - u.y * r.x;
+        //    crash = false;
+        //    break;
             //case '3'://look up
             //    angle = 0.05;
             //    l.x = l.x * cos(angle) + u.x * sin(angle);
@@ -1239,14 +1225,15 @@ void keyboardListener(unsigned char key, int x, int y)
     }
 }
 
-int MaxMoveX = 485;
-int MaxMoveY = 485;
-int MinMoveX = -485;
-int MinMoveY = -485;
+int MaxMoveX = 475;
+int MaxMoveY = 475;
+int MinMoveX = -475;
+int MinMoveY = -475;
 
 void specialKeyListener(int key, int x, int y)
 {
-    if (gameOver == 0 && crash == false)
+    double angle = 0.5;
+    if (gameOver == 0)
     {
         if (pos.x >= MaxMoveX) {
             pos.x = MaxMoveX;
@@ -1289,18 +1276,28 @@ void specialKeyListener(int key, int x, int y)
 
         case GLUT_KEY_RIGHT:
 
-            unit = sqrt(r.x * r.x + r.y * r.y + r.z * r.z);
-            pos.x = pos.x + r.x / unit;
-            pos.y = pos.y + r.y / unit;
-            pos.z = pos.z + r.z / unit;
+            angle = -0.05;
+            r.x = r.x * cos(angle) + l.x * sin(angle);
+            r.y = r.y * cos(angle) + l.y * sin(angle);
+            r.z = r.z * cos(angle) + l.z * sin(angle);
+            //now, l=u*r
+            l.x = u.y * r.z - u.z * r.y;
+            l.y = u.z * r.x - u.x * r.z;
+            l.z = u.x * r.y - u.y * r.x;
+            
             break;
+
         case GLUT_KEY_LEFT:
 
-            unit = sqrt(r.x * r.x + r.y * r.y + r.z * r.z);
-            pos.x = pos.x - r.x / unit;
-            pos.y = pos.y - r.y / unit;
-            pos.z = pos.z - r.z / unit;
-
+            angle = 0.05;
+            r.x = r.x * cos(angle) + l.x * sin(angle);
+            r.y = r.y * cos(angle) + l.y * sin(angle);
+            r.z = r.z * cos(angle) + l.z * sin(angle);
+            //now, l=u*r
+            l.x = u.y * r.z - u.z * r.y;
+            l.y = u.z * r.x - u.x * r.z;
+            l.z = u.x * r.y - u.y * r.x;
+            
             break;
 
 
@@ -1308,7 +1305,6 @@ void specialKeyListener(int key, int x, int y)
             break;
 
         case GLUT_KEY_HOME:
-
 
             break;
         case GLUT_KEY_END:
@@ -1375,6 +1371,22 @@ void display()
 
     //gluLookAt(100,100,100,	0,0,0,	0,0,1);
     gluLookAt(pos.x, pos.y, pos.z, pos.x + l.x, pos.y + l.y, pos.z + l.z, u.x, u.y, u.z);
+    float light_position[] = { (pos.x + l.x) , (pos.y + l.y)  , 0 , 1.0f };
+    float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
+    float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
+    float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
+
+    glShadeModel(GL_SMOOTH);      //GL_FLAT 
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+    glEnable(GL_DEPTH_TEST);
     //gluLookAt(0,0,1000,	0,0,0,	0,1,0);
 
 

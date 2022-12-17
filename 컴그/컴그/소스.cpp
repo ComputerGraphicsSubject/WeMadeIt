@@ -15,10 +15,17 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#pragma comment (lib, "winmm.lib")
+#include <mmsystem.h>
+
 #define pi 3.141529
 #define	PI   3.1415926
 #define	N    36   	// Number of parameter “theta” 
 #define	M    18   	// Number of parameter “phi” 	
+
+#define SOUND_FILE_BGM "The Final Showdown.wav"
+#define SOUND_FILE_PIERCE "pierce.wav"
+#define SOUND_FILE_HITROCK "hitrock.wav"
 
 // const int font = (int)GLUT_BITMAP_9_BY_15;
 const int font = (int)GLUT_BITMAP_9_BY_15;
@@ -193,6 +200,8 @@ void init()
 
     glEnable(GL_TEXTURE_2D);
     glGenTextures(5, texID); //(텍스처 개수, 텍스처 저장공간)
+    PlaySound(TEXT(SOUND_FILE_BGM), NULL, SND_ASYNC);
+    
 
     for (int i = 0; i < 5; i++)
     {
@@ -815,6 +824,7 @@ void drawSS()
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
+                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 
                 /*std::string str = "어휴 ㅉㅉ";
                 output(0, 0, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str);*/
@@ -851,9 +861,11 @@ void drawSS()
             glutSolidCone(5, 30, 20, 50);
             if (-15 >= pos.x && -45 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 >= pos.z) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_PIERCE), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
+              
             }
         }
         glPopMatrix();
@@ -879,9 +891,11 @@ void drawSS()
             glutSolidCone(5, 30, 20, 50);
             if (-75 >= pos.x && -105 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_PIERCE), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
+                
             }
         }
         glPopMatrix();
@@ -907,9 +921,11 @@ void drawSS()
             glutSolidCone(5, 30, 20, 50);
             if (-135 >= pos.x && -165 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_PIERCE), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
+                
             }
         }
         glPopMatrix();
@@ -937,6 +953,7 @@ void drawSS()
             gluSphere(earth, 15, 100, 100);
             if (-285 + sin(rotate_angle) >= pos.x && -315 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y ) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
@@ -967,6 +984,7 @@ void drawSS()
             gluSphere(earth, 15, 100, 100);
             if (-135 + sin(rotate_angle) >= pos.x && -165 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
@@ -997,6 +1015,7 @@ void drawSS()
             gluSphere(earth, 15, 100, 100);
             if (15 + sin(rotate_angle) >= pos.x && -15 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
@@ -1027,6 +1046,7 @@ void drawSS()
             gluSphere(earth, 15, 100, 100);
             if (165 + sin(rotate_angle) >= pos.x && 135 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
@@ -1057,6 +1077,7 @@ void drawSS()
             gluSphere(earth, 15, 100, 100);
             if (315 + sin(rotate_angle) >= pos.x && 285 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
@@ -1093,10 +1114,15 @@ void drawSS()
     else
     {
         std::string str = "your TIME: " + strHour + "::" + strMn + "::" + strSec;
+        std::string str1 = "Merry Christmas";
         l.x = 150;
         l.y = 150;
         gameOver = 1;
         output(0, 0, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str);
+        output(300, 250, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str1);
+        /*pos.x = 450;
+        pos.y = 450;
+        pos.z = 25;*/
     }
 
 
@@ -1342,7 +1368,11 @@ void mouseListener(int button, int state, int x, int y) 	//x, y is the x-y of th
     }
 }
 
+void Sound(int Value) {
+    PlaySound(TEXT(SOUND_FILE_BGM), NULL, SND_ASYNC);
 
+    glutTimerFunc(6400, Sound, 1);
+}
 
 void display()
 {
@@ -1361,8 +1391,7 @@ void display()
     cameraSetting();
     ///initialize the matrix
     glLoadIdentity();
-
-
+    //PlaySound(TEXT(SOUND_FILE_BGM), NULL, SND_ASYNC);
 
     //now give three info
     //1. where is the camera (viewer)?
@@ -1486,6 +1515,7 @@ int main(int argc, char** argv)
     glutKeyboardFunc(keyboardListener);
     glutSpecialFunc(specialKeyListener);
     glutMouseFunc(mouseListener);
+    glutTimerFunc(6400, Sound, 1);
 
     //destroy();
 

@@ -16,13 +16,13 @@
 #define	N    36   	
 #define	M    18   	
 
-#define SOUND_FILE_BGM "The Final Showdown.wav"
-#define SOUND_FILE_PIERCE "pierce.wav"
-#define SOUND_FILE_HITROCK "hitrock.wav"
+#define SOUND_FILE_BGM "The Final Showdown.wav" //게임 메인 음향
+#define SOUND_FILE_PIERCE "pierce.wav"          //가시에 찔리는 소리
+#define SOUND_FILE_HITROCK "hitrock.wav"        //돌에 깔리거나 부딛히는 소리
 
 
-const int font = (int)GLUT_BITMAP_9_BY_15;
-double cubeLen = 35, sphereRad = 7;
+const int font = (int)GLUT_BITMAP_9_BY_15;  //폰트를 띄우기 위한 설정
+double cubeLen = 35, sphereRad = 7;         
 double cameraHeight;
 double cameraAngle;
 int drawgrid;
@@ -36,7 +36,7 @@ int start = clock();
 int sec, mn = 0, hour = 0;
 int gameOver = 0;
 std::string strSec, strMn, strHour, cout;
-GLfloat fogColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+GLfloat fogColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };    //안개 색
 
 float	theta, phi;
 float	delta_theta, delta_phi;
@@ -44,7 +44,7 @@ float	start_theta, start_phi;
 float	Radius = 1.0;
 float 	ver[N][M + 1][3];
 
-struct ImageData {
+struct ImageData {          //이미지의 세부사항
     int width;
     int height;
     int nrChannels;
@@ -52,20 +52,8 @@ struct ImageData {
     unsigned char* data;
 };
 
-ImageData wallImageData;
+ImageData wallImageData;    
 
-struct Moon
-{
-
-    double x, y, z, rad;
-    Moon(double a, double b, double c, double r)
-    {
-        x = a;
-        y = b;
-        z = c;
-        rad = r;
-    }
-};
 struct point
 {
     double x, y, z;
@@ -90,7 +78,7 @@ public:
 
 
 };
-class Destination
+class Destination       //목표물 위치 설정 클래스
 {
 
 public:
@@ -109,14 +97,13 @@ public:
     }
 
 };
-vec pos(450, 450, 25);
+vec pos(450, 450, 25);                  //시작지점
 vec l(-sqrt(0.5), -sqrt(0.5), 0);
 vec r(-sqrt(0.5), sqrt(0.5), 0);
 vec u(0, 0, 1);
 vec temp_pos(1000, 1000, 1000);
 vec temp_l(0, 0, 0);
-Moon moon(-200, -200, 200, 20);
-Destination destination(-250, -250, -300, -250);
+Destination destination(-250, -250, -300, -250);//목적지
 
 
 GLuint g_textureID = 1;
@@ -132,7 +119,7 @@ unsigned char* LoadMeshFromFile(const char* texFile) //이미지 정보 읽어오는 함수
     GLuint texture;
     glGenTextures(1, &texture);
     FILE* fp = NULL;
-    if (fopen_s(&fp, texFile, "rb")) {
+    if (fopen_s(&fp, texFile, "rb")) {              //이미지 못읽었을때의 예외처리
         printf("ERROR : No %s. \n fail to bind %d\n", texFile, texture);
         return (unsigned char*)false;
     }
@@ -144,7 +131,7 @@ unsigned char* LoadMeshFromFile(const char* texFile) //이미지 정보 읽어오는 함수
 
 
 
-void init()
+void init()         //초기 설정
 {
     
 
@@ -153,7 +140,7 @@ void init()
     PlaySound(TEXT(SOUND_FILE_BGM), NULL, SND_ASYNC);
     
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++)         //5개의 이미지를 가져오는 부분
     {
         unsigned char* bitmap;
         bitmap = LoadMeshFromFile((char*)imagefiles[i]);
@@ -172,14 +159,14 @@ void init()
     angle = 0;
     debug = 0;
 
-    glClearColor(0, 0, 0, 0);
-    glFogi(GL_FOG_MODE, GL_LINEAR); // <1>
-    glFogfv(GL_FOG_COLOR, fogColor); // <2>
-    glFogf(GL_FOG_DENSITY, 0.3f); // <3>
-    glHint(GL_FOG_HINT, GL_NICEST); // <4>
-    glFogf(GL_FOG_START, 7.0f); // <5>
-    glFogf(GL_FOG_END, 500.0f); // <6>
-    glEnable(GL_FOG); // <7>
+    glClearColor(0, 0, 0, 0);                   //안개효과 시작지점
+    glFogi(GL_FOG_MODE, GL_LINEAR); 
+    glFogfv(GL_FOG_COLOR, fogColor);
+    glFogf(GL_FOG_DENSITY, 0.3f); 
+    glHint(GL_FOG_HINT, GL_NICEST);
+    glFogf(GL_FOG_START, 7.0f); // 안개 시작거리
+    glFogf(GL_FOG_END, 500.0f); // 안개 끝 거리
+    glEnable(GL_FOG); 
 
     glMatrixMode(GL_PROJECTION);
 
@@ -189,7 +176,7 @@ void init()
 
 }
 
-void 	reshape(int w, int h) {
+void 	reshape(int w, int h) {     
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -256,7 +243,7 @@ void drawSquare(double a)
 }
 
 
-void drawWallGeneric(double ax, double ay, double bx, double by, double height, double width, float sz, float sx)
+void wallDrawing(double ax, double ay, double bx, double by, double height, double width, float sz, float sx) //외벽과 내벽을 그리는 함수
 {
 
     glEnable(GL_TEXTURE_2D);
@@ -269,6 +256,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     y1 = ay + width * (ax - bx) / dis;
     x2 = bx + width * (by - ay) / dis;
     y2 = by + width * (ax - bx) / dis;
+    
     
 
     glPushMatrix();
@@ -383,13 +371,13 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 }
 
 
-void buildTheMaze()
+void buildTheMaze()     //맵을 그리는 함수
 {
     
     glPushMatrix();
     glColor3f(0.0, 0.0, 1.0);
-    glBindTexture(GL_TEXTURE_2D, texID[4]);
-    drawWallGeneric(destination.a.x, destination.a.y, destination.b.x, destination.b.y, 30, 30, 1, 1);
+    glBindTexture(GL_TEXTURE_2D, texID[4]); //가져올 비트맵 형태의 이미지 배열
+    wallDrawing(destination.a.x, destination.a.y, destination.b.x, destination.b.y, 30, 30, 1, 1); //목적지 그리기
     glPopMatrix();
 
     glPushMatrix();
@@ -403,43 +391,46 @@ void buildTheMaze()
     glBindTexture(GL_TEXTURE_2D, texID[0]);
     glColor3f(1.0, 0.0, 0.0);
     
-    drawWallGeneric(-500, -500, -500, 500, 52, 15, 10, 1);
-    drawWallGeneric(-500, -500, 500, -500, 52, 15, 10, 1);
-    drawWallGeneric(500, 500, -500, 500, 52, 15, 10, 1);
-    drawWallGeneric(500, 500, 500, -70, 52, 15, 10, 1);
-    drawWallGeneric(500, -500, 500, -150, 52, 15, 10, 1);
+    //외벽 그리기
+    wallDrawing(-500, -500, -500, 500, 52, 15, 10, 1);
+    wallDrawing(-500, -500, 500, -500, 52, 15, 10, 1);
+    wallDrawing(500, 500, -500, 500, 52, 15, 10, 1);
+    wallDrawing(500, 500, 500, -70, 52, 15, 10, 1);
+    wallDrawing(500, -500, 500, -150, 52, 15, 10, 1);
     
-    drawWallGeneric(400, 350, 400, 0, 52, 15, 7, 1);
-    drawWallGeneric(400, 400, 0, 400, 52, 15, 8, 1);
-    drawWallGeneric(400, 300, 300, 300, 52, 15, 1, 1);
-    drawWallGeneric(300, 300, 300, 350, 52, 15, 1, 1);
-    drawWallGeneric(-100, 0, 400, 0, 52, 15, 5, 1);
-    drawWallGeneric(-200, -70, 500, -70, 52, 15, 6, 1);
-    drawWallGeneric(-200, -70, -200, 200, 52, 15, 3, 1);
-    drawWallGeneric(-200, 200, 200, 200, 52, 15, 4, 1);
-    drawWallGeneric(200, 250, 400, 200, 52, 15, 6, 1);
-    drawWallGeneric(-50, 500, -50, 300, 52, 15, 2, 1);
-    drawWallGeneric(0, 400, 0, 250, 52, 15, 3, 1);
-    drawWallGeneric(0, 250, -200, 250, 52, 15, 2, 1);
-    drawWallGeneric(-200, 250, -200, 500, 52, 15, 3, 1);
-    drawWallGeneric(-300, -150, 500, -150, 52, 15, 5, 1);
-    drawWallGeneric(-300, -150, -300, 450, 52, 15, 6, 1);
-    drawWallGeneric(300, 80, -100, 80, 52, 15, 2, 1);
-    drawWallGeneric(-380, 500, -380, 150, 52, 15, 3, 1);
-    drawWallGeneric(-380, 100, -380, -300, 52, 15, 2, 1);
-    drawWallGeneric(-380, -300, -380, -330, 52, 15, 1, 1);
-    drawWallGeneric(-380, -100, -300, -100, 52, 15, 1, 1);
-    drawWallGeneric(-380, -330, 400, -330, 52, 15, 7, 1);
-    drawWallGeneric(-200, -250, 300, -250, 52, 15, 2, 1);
-    drawWallGeneric(-200, -250, -200, -170, 52, 15, 1, 1);
-    drawWallGeneric(-300, -400, 400, -400, 52, 15, 2, 1);
-    drawWallGeneric(400, -330, 400, -400, 52, 15, 2, 1);
+    //내부 벽 그리기
+    wallDrawing(400, 350, 400, 0, 52, 15, 7, 1);
+    wallDrawing(400, 400, 0, 400, 52, 15, 8, 1);
+    wallDrawing(400, 300, 300, 300, 52, 15, 1, 1);
+    wallDrawing(300, 300, 300, 350, 52, 15, 1, 1);
+    wallDrawing(-100, 0, 400, 0, 52, 15, 5, 1);
+    wallDrawing(-200, -70, 500, -70, 52, 15, 6, 1);
+    wallDrawing(-200, -70, -200, 200, 52, 15, 3, 1);
+    wallDrawing(-200, 200, 200, 200, 52, 15, 4, 1);
+    wallDrawing(200, 250, 400, 200, 52, 15, 6, 1);
+    wallDrawing(-50, 500, -50, 300, 52, 15, 2, 1);
+    wallDrawing(0, 400, 0, 250, 52, 15, 3, 1);
+    wallDrawing(0, 250, -200, 250, 52, 15, 2, 1);
+    wallDrawing(-200, 250, -200, 500, 52, 15, 3, 1);
+    wallDrawing(-300, -150, 500, -150, 52, 15, 8, 1);
+    wallDrawing(-300, -150, -300, 450, 52, 15, 6, 1);
+    wallDrawing(300, 80, -100, 80, 52, 15, 4, 1);
+    wallDrawing(-380, 500, -380, 150, 52, 15, 3, 1);
+    wallDrawing(-380, 100, -380, -300, 52, 15, 4, 1);
+    wallDrawing(-380, -300, -380, -330, 52, 15, 1, 1);
+    wallDrawing(-380, -100, -300, -100, 52, 15, 1, 1);
+    wallDrawing(-380, -330, 400, -330, 52, 15, 7, 1);
+    wallDrawing(-200, -250, 300, -250, 52, 15, 2, 1);
+    wallDrawing(-200, -250, -200, -170, 52, 15, 1, 1);
+    wallDrawing(-300, -400, 400, -400, 52, 15, 2, 1);
+    wallDrawing(400, -330, 400, -400, 52, 15, 2, 1);
     glPopMatrix();
 
 
-
 }
-void forceLookForward()
+
+
+void forceLookForward()             //정면을 보게 해주는 함수
 {
 
     l.z = 0;
@@ -465,7 +456,7 @@ void forceLookForward()
     }
 }
 
-void output(int x, int y, int z, float r, float g, float b, int portX, int portY, int portWidth, int portHeight, void* font, std::string str)
+void output(int x, int y, int z, float r, float g, float b, int portX, int portY, int portWidth, int portHeight, void* font, std::string str) //글씨를 띄워주는 함수
 {
     glViewport(portX, portY, portWidth, portHeight);
     glColor3f(r, g, b);
@@ -478,7 +469,7 @@ void output(int x, int y, int z, float r, float g, float b, int portX, int portY
     }
 }
 
-bool isGameOver()
+bool isGameOver()           //게임 종료를 나타내주는 함수
 {
     if (destination.a.x >= pos.x && destination.b.x <= pos.x && destination.a.y <= pos.y && destination.b.y + 50 >= pos.y)
     {
@@ -488,7 +479,7 @@ bool isGameOver()
     return false;
 }
 
-
+//장애물을 구현하기 위한 전역변수
 float tmpY = 500;
 float tmpZ = -50;
 float rotate_angle = 0;
@@ -507,45 +498,44 @@ int rotation = 0;
 bool crash = false;
 
 
-void drawSS()
+void drawSS()               //내부 구조물을 그리는 함수
 {
 
     if (!isGameOver())
     {
 
-        glViewport(0, 0, 720, 720);
-        glColor3f(0.30, 0.20, 0.10);  
+        glViewport(0, 0, 720, 720);//화면의 크기
+        glColor3f(0.30, 0.20, 0.10);  //배경색 설정
 
         glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, texID[1]);
-        drawWallGeneric(-500, -500, -500, 500, 0, 1000, 10, 10);
+        wallDrawing(-500, -500, -500, 500, 0, 1000, 10, 10);  //및바닥 구현
         glPopMatrix();
 
         
         
-        glPushMatrix();
-        
+        glPushMatrix();             // 천장 구현
         glBindTexture(GL_TEXTURE_2D, texID[0]);
         glTranslatef(0, 0, 50);
-        drawWallGeneric(-501, -501, -501, 501, 0, 1000, 10, 10);
+        wallDrawing(-501, -501, -501, 501, 0, 1000, 10, 10);
         glPopMatrix();
 
         
         glColor3f(0.0, 0.0, 1.0);
-        drawWallGeneric(500, -85, 500, -150, 52, 5, 1, 1);
+        wallDrawing(500, -85, 500, -150, 52, 5, 1, 1);
 
         glColor3f(1, 1, 1);
 
-        GLUquadricObj* earth;
-        earth = gluNewQuadric();
-        gluQuadricDrawStyle(earth, GLU_FILL);
-        gluQuadricTexture(earth, GL_TRUE);
+        // 공을 매핑하고 그리기 위한 설정
+        GLUquadricObj* ball;
+        ball = gluNewQuadric();
+        gluQuadricDrawStyle(ball, GLU_FILL);
+        gluQuadricTexture(ball, GL_TRUE);
 
         
         //이동하는 구 장애물
         glPushMatrix();
         {   
-        
             if (tmpY > -80 && flag == false) {
                 tmpY -= 1;
                 rotation += 6;
@@ -564,13 +554,14 @@ void drawSS()
             glTranslatef(-340, tmpY, 25);
             glRotatef(rotation, 1, 0, 0);
             glBindTexture(GL_TEXTURE_2D, texID[3]);
-            gluSphere(earth, 20, 100, 100);
-            if (-320 >= pos.x && -360 <= pos.x && tmpY-20 <= pos.y && tmpY+20 >= pos.y) {
+            gluSphere(ball, 20, 100, 100);
+            if (-320 >= pos.x && -360 <= pos.x && tmpY-20 <= pos.y && tmpY+20 >= pos.y) {       //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
+                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);   //충돌 이벤트에 해당됐을 경우 나오는 소리
+                //시작점으로 보냄
                 pos.x = 450;
                 pos.y = 450;
                 pos.z = 25;
-                PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
             }
         }
         glPopMatrix();
@@ -593,7 +584,7 @@ void drawSS()
             glTranslatef(-30, 225, tmpZ);
             glColor3d(100, 100, 100);
             glutSolidCone(5, 30, 20, 50);
-            if (-15 >= pos.x && -45 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 >= pos.z) {
+            if (-15 >= pos.x && -45 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 >= pos.z) {   //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_PIERCE), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -623,7 +614,7 @@ void drawSS()
             glTranslatef(-90, 230, tmpZ);
             glColor3d(100, 100, 100);
             glutSolidCone(5, 30, 20, 50);
-            if (-75 >= pos.x && -105 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
+            if (-75 >= pos.x && -105 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {   //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_PIERCE), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -653,7 +644,7 @@ void drawSS()
             glTranslatef(-150, 225, tmpZ);
             glColor3d(100, 100, 100);
             glutSolidCone(5, 30, 20, 50);
-            if (-135 >= pos.x && -165 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {
+            if (-135 >= pos.x && -165 <= pos.x && 210 <= pos.y && 240 >= pos.y && tmpZ + 25 < pos.z) {  //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_PIERCE), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -684,8 +675,8 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 15, 100, 100);
-            if (-285 + sin(rotate_angle) >= pos.x && -315 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y ) {
+            gluSphere(ball, 15, 100, 100);
+            if (-285 + sin(rotate_angle) >= pos.x && -315 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y ) {    //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -715,8 +706,8 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 15, 100, 100);
-            if (-135 + sin(rotate_angle) >= pos.x && -165 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+            gluSphere(ball, 15, 100, 100);
+            if (-135 + sin(rotate_angle) >= pos.x && -165 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) { //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -746,8 +737,8 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 15, 100, 100);
-            if (15 + sin(rotate_angle) >= pos.x && -15 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+            gluSphere(ball, 15, 100, 100);
+            if (15 + sin(rotate_angle) >= pos.x && -15 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {    //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -777,8 +768,8 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 15, 100, 100);
-            if (165 + sin(rotate_angle) >= pos.x && 135 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+            gluSphere(ball, 15, 100, 100);
+            if (165 + sin(rotate_angle) >= pos.x && 135 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {   //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -808,8 +799,8 @@ void drawSS()
             glTranslatef(0, 0, -30);
             drawAxes();
             glBindTexture(GL_TEXTURE_2D, texID[2]);
-            gluSphere(earth, 15, 100, 100);
-            if (315 + sin(rotate_angle) >= pos.x && 285 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {
+            gluSphere(ball, 15, 100, 100);
+            if (315 + sin(rotate_angle) >= pos.x && 285 - sin(rotate_angle) <= pos.x && -470 <= pos.y && -440 >= pos.y) {   //동적인 충돌처리
                 std::cout << "아야!!" << "\n";
                 PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
                 pos.x = 450;
@@ -820,7 +811,7 @@ void drawSS()
         glPopMatrix();
         buildTheMaze();
         glPushMatrix();
-        {
+        {   //플레이 타임을 보여주는 코드
             int n = ((clock() - start) / 1000);
 
             sec = n % 60;
@@ -844,7 +835,7 @@ void drawSS()
 
     }
     else
-    {
+    {   //게임 종료시 플레이 타임을 보여주는 코드
         std::string str = "your TIME: " + strHour + "::" + strMn + "::" + strSec;
         std::string str1 = "Merry Christmas";
         l.x = 150;
@@ -861,7 +852,8 @@ void drawSS()
 
 }
 
-void keyboardListener(unsigned char key, int x, int y)
+
+void keyboardListener(unsigned char key, int x, int y)      //키보드 값을 입력받고 처리하기 위한 함수
 {
     double angle = 0.5;
     if (gameOver == 0)
@@ -899,8 +891,6 @@ void keyboardListener(unsigned char key, int x, int y)
                 u.x = r.y * l.z - r.z * l.y;
                 u.y = r.z * l.x - r.x * l.z;
                 u.z = r.x * l.y - r.y * l.x;
-
-                moon.rad = 0;
             }
             else
             {
@@ -920,7 +910,6 @@ void keyboardListener(unsigned char key, int x, int y)
                 u.x = r.y * l.z - r.z * l.y;
                 u.y = r.z * l.x - r.x * l.z;
                 u.z = r.x * l.y - r.y * l.x;
-                moon.rad = 10;
             }
 
         default:
@@ -929,12 +918,13 @@ void keyboardListener(unsigned char key, int x, int y)
     }
 }
 
+//외벽 처리를 위한 접근 최대값
 int MaxMoveX = 475;
 int MaxMoveY = 475;
 int MinMoveX = -475;
 int MinMoveY = -475;
 
-void specialKeyListener(int key, int x, int y)
+void specialKeyListener(int key, int x, int y)      //게임 조작시 키보드 값을 입력받고 처리하기 위한 함수
 {
     double angle = 0.5;
     if (gameOver == 0)
@@ -1046,7 +1036,7 @@ void mouseListener(int button, int state, int x, int y)
     }
 }
 
-void Sound(int Value) {
+void Sound(int Value) {     //배경음악을 사용하기 위한 함수
     PlaySound(TEXT(SOUND_FILE_BGM), NULL, SND_ASYNC);
 
     glutTimerFunc(6400, Sound, 1);
@@ -1055,9 +1045,8 @@ void Sound(int Value) {
 void display()
 {
 
-    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0, 0, 0, 0);	///color black
+    glClearColor(0, 0, 0, 0);	
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     
@@ -1066,6 +1055,7 @@ void display()
     glLoadIdentity();
     
 
+    //지속적인 위치를 받아 조명처리를 해주기 위한 설정
     gluLookAt(pos.x, pos.y, pos.z, pos.x + l.x, pos.y + l.y, pos.z + l.z, u.x, u.y, u.z);
     float light_position[] = { (pos.x + l.x) , (pos.y + l.y)  , 0 , 1.0f };
     float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
@@ -1129,11 +1119,6 @@ void animate()
     }
     
     glutPostRedisplay();
-}
-
-
-void destroy() {
-    stbi_image_free(wallImageData.data);
 }
 
 int main(int argc, char** argv)

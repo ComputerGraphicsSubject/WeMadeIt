@@ -1,91 +1,91 @@
 ﻿  소스.cpp
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(24,42): warning C4311: '형식 캐스트': 'void *'에서 'int'(으)로 포인터가 잘립니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(24,42): warning C4302: '형식 캐스트': 'void *'에서 'int'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(225,32): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(234,30): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(235,30): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(237,35): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(238,34): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(250,23): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(250,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(251,23): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(251,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(252,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(252,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(253,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(253,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(279,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(279,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(281,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(281,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(283,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(283,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(283,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(285,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(285,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(285,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(296,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(296,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(212,32): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(221,30): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(222,30): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(224,35): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(225,34): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(237,23): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(237,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(238,23): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(238,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(239,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(239,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(240,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(240,20): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(267,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(267,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(269,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(269,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(271,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(271,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(271,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(273,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(273,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(273,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(284,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(284,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(286,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(286,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(288,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(288,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(288,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(290,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(290,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(290,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(298,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(298,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(300,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(300,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(300,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(302,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(302,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(302,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(310,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(314,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(314,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(316,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(316,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(318,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(318,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(320,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(320,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(334,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(334,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(336,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(336,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(338,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(338,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(304,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(304,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(306,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(306,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(308,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(308,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(322,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(322,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(324,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(324,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(326,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(326,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(328,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(328,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(340,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(340,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(352,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(352,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(354,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(354,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(354,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(356,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(356,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(356,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(342,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(342,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(342,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(344,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(344,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(344,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(346,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(346,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(358,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(358,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(370,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(370,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(372,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(372,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(372,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(374,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(374,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(374,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(376,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(376,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(472,22): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(472,19): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(517,35): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(565,23): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(582,28): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(588,28): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(612,28): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(618,28): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(642,28): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(648,28): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(841,68): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(853,61): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(854,65): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1070,39): warning C4838: 'double'에서 'float'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1070,39): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1070,55): warning C4838: 'double'에서 'float'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1070,55): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(360,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(360,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(360,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(362,32): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(362,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(362,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(364,28): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(364,24): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(463,22): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(463,19): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(508,35): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(555,23): warning C4244: '인수': 'int'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(573,28): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(579,28): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(603,28): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(609,28): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(633,28): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(639,28): warning C4305: '-=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(832,68): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(844,61): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(845,65): warning C4312: '형식 캐스트': 'const int'에서 더 큰 'void *'(으)로의 변환입니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1060,39): warning C4838: 'double'에서 'float'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1060,39): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1060,55): warning C4838: 'double'에서 'float'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\asw411\Desktop\WeMadeIt\컴그\컴그\소스.cpp(1060,55): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   컴그.vcxproj -> C:\Users\asw411\Desktop\WeMadeIt\컴그\x64\Debug\컴그.exe

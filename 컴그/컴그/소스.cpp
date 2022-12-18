@@ -36,6 +36,7 @@ int start = clock();
 int sec, mn = 0, hour = 0;
 int gameOver = 0;
 std::string strSec, strMn, strHour, cout;
+GLfloat fogColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 float	theta, phi;
 float	delta_theta, delta_phi;
@@ -145,6 +146,7 @@ unsigned char* LoadMeshFromFile(const char* texFile) //이미지 정보 읽어오는 함수
 
 void init()
 {
+    
 
     glEnable(GL_TEXTURE_2D);
     glGenTextures(5, texID); //(텍스처 개수, 텍스처 저장공간)
@@ -171,6 +173,13 @@ void init()
     debug = 0;
 
     glClearColor(0, 0, 0, 0);
+    glFogi(GL_FOG_MODE, GL_LINEAR); // <1>
+    glFogfv(GL_FOG_COLOR, fogColor); // <2>
+    glFogf(GL_FOG_DENSITY, 0.3f); // <3>
+    glHint(GL_FOG_HINT, GL_NICEST); // <4>
+    glFogf(GL_FOG_START, 7.0f); // <5>
+    glFogf(GL_FOG_END, 500.0f); // <6>
+    glEnable(GL_FOG); // <7>
 
     glMatrixMode(GL_PROJECTION);
 

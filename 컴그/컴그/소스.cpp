@@ -1,16 +1,9 @@
-//#include<windows.h>
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-//#include<bits/stdc++.h>
-//#include <windows.h>
+#include <gl/glut.h>
 #include <math.h>
 #include <string>
 #include <sstream>
 #include <iostream>
-//#include <windows.h>
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -20,14 +13,14 @@
 
 #define pi 3.141529
 #define	PI   3.1415926
-#define	N    36   	// Number of parameter “theta” 
-#define	M    18   	// Number of parameter “phi” 	
+#define	N    36   	
+#define	M    18   	
 
 #define SOUND_FILE_BGM "The Final Showdown.wav"
 #define SOUND_FILE_PIERCE "pierce.wav"
 #define SOUND_FILE_HITROCK "hitrock.wav"
 
-// const int font = (int)GLUT_BITMAP_9_BY_15;
+
 const int font = (int)GLUT_BITMAP_9_BY_15;
 double cubeLen = 35, sphereRad = 7;
 double cameraHeight;
@@ -124,46 +117,6 @@ vec temp_l(0, 0, 0);
 Moon moon(-200, -200, 200, 20);
 Destination destination(-250, -250, -300, -250);
 
-//float light_position[];
-//float light_ambient[];
-//float light_diffuse[];
-//float light_specular[];
-
-
-void 	VertexGeneration(void) {
-    start_theta = 0.0;
-    delta_theta = 2.0 * PI / N;
-
-    start_phi = -1.0 * PI / 2.0;
-    delta_phi = 1.0 * PI / M;
-
-    for (int j = 0; j <= M; j++) {			// phi (위도)
-        for (int i = 0; i < N; i++) { 		// theta (경도)
-            theta = start_theta + i * delta_theta;
-            phi = start_phi + j * delta_phi;
-            ver[i][j][0] = Radius * cos(phi) * cos(theta);
-            ver[i][j][1] = Radius * cos(phi) * sin(theta);
-            ver[i][j][2] = Radius * sin(phi);
-        }
-    }
-}
-
-void	Modify_Vertex(void) {
-
-    float	length;
-
-    for (int j = 0; j <= M; j++) {
-        for (int i = 0; i < N; i++) {
-            if (fabs(ver[i][j][2]) < 0.5) {
-                length = (4.0 * sqrt(3.0) - 1.0) / 2.0 * fabs(ver[i][j][2])
-                    * fabs(ver[i][j][2]) + 1 / 8.0;
-                ver[i][j][0] *= length;
-                ver[i][j][1] *= length;
-            }
-        }
-    }
-}
-
 
 GLuint g_textureID = 1;
 int width, height;
@@ -193,11 +146,6 @@ unsigned char* LoadMeshFromFile(const char* texFile) //이미지 정보 읽어오는 함수
 void init()
 {
 
-    // LOAD TEXTURES
-
-    /*wallImageData.data = stbi_load("wall.jpg", &(wallImageData.width), &(wallImageData.height), &(wallImageData.nrChannels), 0);
-    glGenTextures(1, &(wallImageData.texture));*/
-
     glEnable(GL_TEXTURE_2D);
     glGenTextures(5, texID); //(텍스처 개수, 텍스처 저장공간)
     PlaySound(TEXT(SOUND_FILE_BGM), NULL, SND_ASYNC);
@@ -209,42 +157,27 @@ void init()
         bitmap = LoadMeshFromFile((char*)imagefiles[i]);
         glBindTexture(GL_TEXTURE_2D, texID[i]);
         //gluBuild2DMipmaps(GL_TEXTURE_2D, channel, width, height, 4, GL_UNSIGNED_BYTE, bitmap);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //2D 텍스처, 확대될 때 LINEAR필터적용(픽셀이 덜 보여 매끄러운 결과 산출)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //2D 텍스처, 축소될 때 LINEAR필터적용(픽셀이 덜 보여 매끄러운 결과 산출)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap);
         free(bitmap);
     }
 
-
-    //codes for initialization
     drawgrid = 1;
     drawaxes = 1;
     cameraHeight = 150.0;
     cameraAngle = 1.0;
     angle = 0;
     debug = 0;
-    //clear the screen
+
     glClearColor(0, 0, 0, 0);
 
-    /************************
-    / set-up projection here
-    ************************/
-    //load the PROJECTION matrix
     glMatrixMode(GL_PROJECTION);
 
-    //initialize the matrix
     glLoadIdentity();
 
-    //give PERSPECTIVE parameters
     gluPerspective(100, 1, 1, 1000.0);
-    //field of view in the Y (vertically)
-    //aspect ratio that determines the field of view in the X direction (horizontally)
-    //near distance
-    //far distance
 
-
-    /*VertexGeneration();
-    Modify_Vertex();*/
 }
 
 void 	reshape(int w, int h) {
@@ -268,12 +201,6 @@ void drawAxes()
     glColor3f(1.0, 1.0, 1.0);
     glBegin(GL_LINES);
     {
-        /*glVertex3f(100, 0, 0);
-        glVertex3f(-100, 0, 0);
-
-        glVertex3f(0, -100, 0);
-        glVertex3f(0, 100, 0);*/
-
         glVertex3f(0, 0, 100);
         glVertex3f(0, 0, 0);
     }
@@ -286,20 +213,18 @@ void drawGrid()
     int i;
     if (drawgrid == 1)
     {
-        glColor3f(0.6, 0.6, 0.6);	//grey
+        glColor3f(0.6, 0.6, 0.6);	
         glBegin(GL_LINES);
         {
             for (i = -8; i <= 8; i++)
             {
 
                 if (i == 0)
-                    continue;	//SKIP the MAIN axes
+                    continue;	
 
-                //lines parallel to Y-axis
                 glVertex3f(i * 10, -90, 0);
                 glVertex3f(i * 10, 90, 0);
 
-                //lines parallel to X-axis
                 glVertex3f(-90, i * 10, 0);
                 glVertex3f(90, i * 10, 0);
             }
@@ -310,7 +235,7 @@ void drawGrid()
 
 void drawSquare(double a)
 {
-    //glColor3f(1.0,0.0,0.0);
+
     glBegin(GL_QUADS);
     {
         glVertex3f(a, a, 0);
@@ -322,77 +247,12 @@ void drawSquare(double a)
 }
 
 
-
-void drawSphere(double radius, int slices, int stacks)
-{
-    struct point points[100][100];
-    int i, j;
-    double h, r;
-    //generate points
-    for (i = 0; i <= stacks; i++)
-    {
-        h = radius * sin(((double)i / (double)stacks) * (pi / 2));
-        r = radius * cos(((double)i / (double)stacks) * (pi / 2));
-        for (j = 0; j <= slices; j++)
-        {
-            points[i][j].x = r * cos(((double)j / (double)slices) * 2 * pi);
-            points[i][j].y = r * sin(((double)j / (double)slices) * 2 * pi);
-            points[i][j].z = h;
-        }
-    }
-    //draw quads using generated points
-    for (i = 0; i < stacks; i++)
-    {
-        //glColor3f((double)i/(double)stacks,(double)i/(double)stacks,(double)i/(double)stacks);
-        for (j = 0; j < slices; j++)
-        {
-
-            glBegin(GL_QUADS);
-            {
-                //upper hemisphere
-                
-                glVertex3f(points[i][j].x, points[i][j].y, points[i][j].z);
-                
-                glVertex3f(points[i][j + 1].x, points[i][j + 1].y, points[i][j + 1].z);
-                
-                glVertex3f(points[i + 1][j + 1].x, points[i + 1][j + 1].y, points[i + 1][j + 1].z);
-                
-                glVertex3f(points[i + 1][j].x, points[i + 1][j].y, points[i + 1][j].z);
-                //lower hemisphere
-                
-                glVertex3f(points[i][j].x, points[i][j].y, -points[i][j].z);
-                
-                glVertex3f(points[i][j + 1].x, points[i][j + 1].y, -points[i][j + 1].z);
-                
-                glVertex3f(points[i + 1][j + 1].x, points[i + 1][j + 1].y, -points[i + 1][j + 1].z);
-                
-                glVertex3f(points[i + 1][j].x, points[i + 1][j].y, -points[i + 1][j].z);
-            }
-            glEnd();
-        }
-    }
-}
-
 void drawWallGeneric(double ax, double ay, double bx, double by, double height, double width, float sz, float sx)
 {
 
     glEnable(GL_TEXTURE_2D);
 
-    /*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, wallImageData.data);
-
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glColor3f(1, 1, 1);*/
-    //glBindTexture(GL_TEXTURE_2D, wallImageData.texture);
-
     glColor3f(1, 1, 1);
-
-    //glBindTexture(GL_TEXTURE_2D, texID[0]);
-
 
     double dis = sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
     double x1, y1, x2, y2;
@@ -406,47 +266,14 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     {
         glBegin(GL_QUADS);
         {
-
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //
-            //   범진님 여길 봐요!!!!!!!!!!!!!!!!!!!1
-            //
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-
-            /*glTexCoord3f(0, 0, 0);
-            glVertex3f(ax, ay, 0);
-            glTexCoord3f(height/20.0, 0, 0);
-            glVertex3f(bx, by, 0);
-            glTexCoord3f(height / 20.0, width / 20.0, 0);
-            glVertex3f(bx, by, height);
-            glTexCoord3f(0, width / 20.0, 0);
-            glVertex3f(ax, ay, height);*/
-
-            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);//좌하단
-            //glNormal3f(0, 0, 1);
             glTexCoord3f(sz, 0, 0);
             glVertex3f(bx, by, 0);//우하단
-            //glNormal3f(0, 0, 1);
             glTexCoord3f(sz, sx, 0);
             glVertex3f(bx, by, height);//우상단
-            //glNormal3f(0, 0, 1);
             glTexCoord3f(0, sx, 0);
             glVertex3f(ax, ay, height);//좌상단
-
-            /*glNormal3f(0.0, 1.0, 0.0);
-            glTexCoord2d(1.0, 1.0);
-            glVertex3f(21.0f, 0.0f, -21.0f);
-            glTexCoord2d(0.0, 1.0);
-            glVertex3f(-21.0f, 0.0f, -21.0f);
-            glTexCoord2d(0.0, 0.0);
-            glVertex3f(-21.0f, 0.0f, 21.0f);
-            glTexCoord2d(1.0, 0.0);
-            glVertex3f(21.0f, 0.0f, 21.0f);*/
         }
         glEnd();
     }
@@ -454,10 +281,8 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
     glPushMatrix();
     {
-        //glTranslatef(width,0,0);
         glBegin(GL_QUADS);
         {
-            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(x1, y1, 0);
             glTexCoord3f(sz, 0, 0);
@@ -471,15 +296,11 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
     }
     glPopMatrix();
 
-
-    //킹바갓닥
-    //a.k.a 윗면
     glPushMatrix();
     {
         glTranslatef(0, 0, height);
         glBegin(GL_QUADS);
         {
-            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
             glTexCoord3f(sz, 0, 0);
@@ -499,7 +320,7 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
-           // glNormal3f(1, 1, 0);
+  
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
             glTexCoord3f(sz, 0, 0);
@@ -518,7 +339,6 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
-            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(ax, ay, 0);
             glTexCoord3f(sz, 0, 0);
@@ -537,7 +357,6 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
         glBegin(GL_QUADS);
         {
-            //glNormal3f(1, 1, 0);
             glTexCoord3f(0, 0, 0);
             glVertex3f(bx, by, 0);
             glTexCoord3f(sz, 0, 0);
@@ -554,74 +373,19 @@ void drawWallGeneric(double ax, double ay, double bx, double by, double height, 
 
 }
 
-void drawOrion()
-{
 
-    glPopMatrix();
-    glPushMatrix();
-    {
-        glTranslated(250, 300, 1000);
-        drawSphere(6, 50, 50);
-    }
-    glPopMatrix();
-    glPushMatrix();
-    {
-        glTranslated(200, 300, 1000);
-        drawSphere(6, 50, 50);
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-        glTranslated(150, 300, 1000);
-        drawSphere(6, 50, 50);
-    }
-    glPopMatrix();
-
-    glColor3f(1, 0.7, 0);
-    glPushMatrix();
-    {
-        glTranslated(450, 600, 1000);
-        drawSphere(6, 50, 50);
-    }
-    glColor3f(1, 1, 1);
-    glPopMatrix();
-    glPushMatrix();
-    {
-
-        glTranslated(-250, 600, 1000);
-        drawSphere(6, 50, 50);
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-        glTranslated(500, -150, 1000);
-        drawSphere(6, 50, 50);
-    }
-
-    glPopMatrix();
-    glPushMatrix();
-    {
-        glTranslated(-100, -175, 1000);
-        drawSphere(6, 50, 50);
-    }
-    glPopMatrix();
-
-}
 void buildTheMaze()
 {
-    //draw destination
+    
     glPushMatrix();
     glColor3f(0.0, 0.0, 1.0);
     glBindTexture(GL_TEXTURE_2D, texID[4]);
     drawWallGeneric(destination.a.x, destination.a.y, destination.b.x, destination.b.y, 30, 30, 1, 1);
     glPopMatrix();
-    //draw player position
+
     glPushMatrix();
     {
         glTranslated(temp_pos.x, temp_pos.y, temp_pos.z + 20);
-        drawSphere(playerRad, 50, 50);
         glTranslated(-temp_pos.x, -temp_pos.y, -temp_pos.z);
     }
     glPopMatrix();
@@ -629,13 +393,13 @@ void buildTheMaze()
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, texID[0]);
     glColor3f(1.0, 0.0, 0.0);
-    //border
+    
     drawWallGeneric(-500, -500, -500, 500, 52, 15, 10, 1);
     drawWallGeneric(-500, -500, 500, -500, 52, 15, 10, 1);
     drawWallGeneric(500, 500, -500, 500, 52, 15, 10, 1);
     drawWallGeneric(500, 500, 500, -70, 52, 15, 10, 1);
     drawWallGeneric(500, -500, 500, -150, 52, 15, 10, 1);
-    //main maze
+    
     drawWallGeneric(400, 350, 400, 0, 52, 15, 7, 1);
     drawWallGeneric(400, 400, 0, 400, 52, 15, 8, 1);
     drawWallGeneric(400, 300, 300, 300, 52, 15, 1, 1);
@@ -691,6 +455,7 @@ void forceLookForward()
 
     }
 }
+
 void output(int x, int y, int z, float r, float g, float b, int portX, int portY, int portWidth, int portHeight, void* font, std::string str)
 {
     glViewport(portX, portY, portWidth, portHeight);
@@ -715,7 +480,6 @@ bool isGameOver()
 }
 
 
-
 float tmpY = 500;
 float tmpZ = -50;
 float rotate_angle = 0;
@@ -733,6 +497,7 @@ bool flag_angle4 = false;
 int rotation = 0;
 bool crash = false;
 
+
 void drawSS()
 {
 
@@ -740,51 +505,23 @@ void drawSS()
     {
 
         glViewport(0, 0, 720, 720);
-        glColor3f(0.30, 0.20, 0.10);   //ground
+        glColor3f(0.30, 0.20, 0.10);  
 
         glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, texID[1]);
         drawWallGeneric(-500, -500, -500, 500, 0, 1000, 10, 10);
         glPopMatrix();
 
-        //if (mapFlag == 0) {
-        //지붕
+        
         
         glPushMatrix();
-        //glBindTexture(GL_TEXTURE_2D, texID[0]);
+        
         glBindTexture(GL_TEXTURE_2D, texID[0]);
         glTranslatef(0, 0, 50);
         drawWallGeneric(-501, -501, -501, 501, 0, 1000, 10, 10);
         glPopMatrix();
 
-        /*glPushMatrix();
-
-        int ax = -501, ay = -501, bx = -501, by = 501;
-        double dis = sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
-        double x1, y1, x2, y2;
-        x1 = ax + width * (by - ay) / dis;
-        y1 = ay + width * (ax - bx) / dis;
-        x2 = bx + width * (by - ay) / dis;
-        y2 = by + width * (ax - bx) / dis;
-
-        glColor3f(0.0, 0.0, 1.0);
-        glTranslatef(0, 0, 51);
         
-        glBegin(GL_QUADS);
-        {
-            
-            glVertex3f(ax, ax, 0);
-            
-            glVertex3f(bx, by, 0);
-            
-            glVertex3f(x2, y2, 0);
-            
-            glVertex3f(x1, y1, 0);
-        }
-        glEnd();
-
-        glPopMatrix();*/
-        //}
         glColor3f(0.0, 0.0, 1.0);
         drawWallGeneric(500, -85, 500, -150, 52, 5, 1, 1);
 
@@ -799,7 +536,7 @@ void drawSS()
         //이동하는 구 장애물
         glPushMatrix();
         {   
-            //if (destination.a.x >= pos.x && destination.b.x <= pos.x && destination.a.y <= pos.y && destination.b.y + 50 >= pos.y)
+        
             if (tmpY > -80 && flag == false) {
                 tmpY -= 1;
                 rotation += 6;
@@ -825,18 +562,6 @@ void drawSS()
                 pos.y = 450;
                 pos.z = 25;
                 PlaySound(TEXT(SOUND_FILE_HITROCK), NULL, SND_ASYNC);
-                
-                /*std::string str = "어휴 ㅉㅉ";
-                output(0, 0, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str);*/
-
-                //angle = 0;
-                //l.x = l.x * cos(angle) + u.x * sin(angle);
-                //l.y = l.y * cos(angle) + u.y * sin(angle);
-                //l.z = l.z * cos(angle) + u.z * sin(angle);
-                ////now, u=r*l
-                //u.x = r.y * l.z - r.z * l.y;
-                //u.y = r.z * l.x - r.x * l.z;
-                //u.z = r.x * l.y - r.y * l.x;
             }
         }
         glPopMatrix();
@@ -1084,8 +809,6 @@ void drawSS()
             }
         }
         glPopMatrix();
-
-        drawOrion();
         buildTheMaze();
         glPushMatrix();
         {
@@ -1118,8 +841,8 @@ void drawSS()
         l.x = 150;
         l.y = 150;
         gameOver = 1;
-        output(0, 0, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str);
-        output(300, 250, 0, 0, 1, 0, 0, 0, 400, 600, (void*)font, str1);
+        output(0, 0, 0, 1, 1, 0, 0, 0, 400, 600, (void*)font, str);
+        output(300, 250, 0, 1, 1, 0, 0, 0, 400, 600, (void*)font, str1);
         /*pos.x = 450;
         pos.y = 450;
         pos.z = 25;*/
@@ -1136,60 +859,11 @@ void keyboardListener(unsigned char key, int x, int y)
     {
         switch (key)
         {
-
-        //case '1':
-        //    angle = 0.05;
-        //    r.x = r.x * cos(angle) + l.x * sin(angle);
-        //    r.y = r.y * cos(angle) + l.y * sin(angle);
-        //    r.z = r.z * cos(angle) + l.z * sin(angle);
-        //    //now, l=u*r
-        //    l.x = u.y * r.z - u.z * r.y;
-        //    l.y = u.z * r.x - u.x * r.z;
-        //    l.z = u.x * r.y - u.y * r.x;
-        //    crash = false;
-        //    break;
-
-        //case '2':
-        //    angle = -0.05;
-        //    r.x = r.x * cos(angle) + l.x * sin(angle);
-        //    r.y = r.y * cos(angle) + l.y * sin(angle);
-        //    r.z = r.z * cos(angle) + l.z * sin(angle);
-        //    //now, l=u*r
-        //    l.x = u.y * r.z - u.z * r.y;
-        //    l.y = u.z * r.x - u.x * r.z;
-        //    l.z = u.x * r.y - u.y * r.x;
-        //    crash = false;
-        //    break;
-            //case '3'://look up
-            //    angle = 0.05;
-            //    l.x = l.x * cos(angle) + u.x * sin(angle);
-            //    l.y = l.y * cos(angle) + u.y * sin(angle);
-            //    l.z = l.z * cos(angle) + u.z * sin(angle);
-            //    //now, u=r*l
-            //    u.x = r.y * l.z - r.z * l.y;
-            //    u.y = r.z * l.x - r.x * l.z;
-            //    u.z = r.x * l.y - r.y * l.x;
-            //    break;
-            //case '4'://look down
-            //    angle = -0.05;
-            //    l.x = l.x * cos(angle) + u.x * sin(angle);
-            //    l.y = l.y * cos(angle) + u.y * sin(angle);
-            //    l.z = l.z * cos(angle) + u.z * sin(angle);
-            //    //now, u=r*l
-            //    u.x = r.y * l.z - r.z * l.y;
-            //    u.y = r.z * l.x - r.x * l.z;
-            //    u.z = r.x * l.y - r.y * l.x;
-            //    break;
-
-
         case 'x':
             if (debug == 0)
                 debug = 1;
             else
                 debug = 0;
-            break;
-        case 'l':
-            forceLookForward();
             break;
         case 'm':
             if (mapFlag == 0)
@@ -1212,19 +886,15 @@ void keyboardListener(unsigned char key, int x, int y)
                 l.x = l.x * cos(angle) + u.x * sin(angle);
                 l.y = l.y * cos(angle) + u.y * sin(angle);
                 l.z = l.z * cos(angle) + u.z * sin(angle);
-                //now, u=r*l
+                
                 u.x = r.y * l.z - r.z * l.y;
                 u.y = r.z * l.x - r.x * l.z;
                 u.z = r.x * l.y - r.y * l.x;
 
                 moon.rad = 0;
-
-
-
             }
             else
             {
-
                 mapFlag = 0;
                 pos.x = temp_pos.x;
                 pos.y = temp_pos.y;
@@ -1237,12 +907,11 @@ void keyboardListener(unsigned char key, int x, int y)
                 l.x = l.x * cos(angle) + u.x * sin(angle);
                 l.y = l.y * cos(angle) + u.y * sin(angle);
                 l.z = l.z * cos(angle) + u.z * sin(angle);
-                //now, u=r*l
+                
                 u.x = r.y * l.z - r.z * l.y;
                 u.y = r.z * l.x - r.x * l.z;
                 u.z = r.x * l.y - r.y * l.x;
                 moon.rad = 10;
-
             }
 
         default:
@@ -1275,7 +944,7 @@ void specialKeyListener(int key, int x, int y)
         }
         switch (key)
         {
-        case GLUT_KEY_DOWN:		//down arrow key
+        case GLUT_KEY_DOWN:		
             double unit;
             if (pos.z == 25)
             {
@@ -1288,7 +957,7 @@ void specialKeyListener(int key, int x, int y)
 
             }
             break;
-        case GLUT_KEY_UP:		// up arrow key
+        case GLUT_KEY_UP:		
             if (pos.z == 25)
             {
                 forceLookForward();
@@ -1306,7 +975,7 @@ void specialKeyListener(int key, int x, int y)
             r.x = r.x * cos(angle) + l.x * sin(angle);
             r.y = r.y * cos(angle) + l.y * sin(angle);
             r.z = r.z * cos(angle) + l.z * sin(angle);
-            //now, l=u*r
+            
             l.x = u.y * r.z - u.z * r.y;
             l.y = u.z * r.x - u.x * r.z;
             l.z = u.x * r.y - u.y * r.x;
@@ -1319,7 +988,7 @@ void specialKeyListener(int key, int x, int y)
             r.x = r.x * cos(angle) + l.x * sin(angle);
             r.y = r.y * cos(angle) + l.y * sin(angle);
             r.z = r.z * cos(angle) + l.z * sin(angle);
-            //now, l=u*r
+            
             l.x = u.y * r.z - u.z * r.y;
             l.y = u.z * r.x - u.x * r.z;
             l.z = u.x * r.y - u.y * r.x;
@@ -1344,12 +1013,12 @@ void specialKeyListener(int key, int x, int y)
 }
 
 
-void mouseListener(int button, int state, int x, int y) 	//x, y is the x-y of the screen (2D)
+void mouseListener(int button, int state, int x, int y) 	
 {
     switch (button)
     {
     case GLUT_LEFT_BUTTON:
-        if (state == GLUT_DOWN) 		// 2 times?? in ONE click? -- solution is checking DOWN or UP
+        if (state == GLUT_DOWN) 		
         {
             drawaxes = 1 - drawaxes;
         }
@@ -1377,35 +1046,24 @@ void Sound(int Value) {
 void display()
 {
 
-    ///clear the display
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0, 0, 0, 0);	///color black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    /********************
-    / set-up camera here
-    ********************/
-    ///load the correct matrix -- MODEL-VIEW matrix
-    //glViewport(0, 0, 500, 500);
+    
     glMatrixMode(GL_MODELVIEW);
     cameraSetting();
-    ///initialize the matrix
     glLoadIdentity();
-    //PlaySound(TEXT(SOUND_FILE_BGM), NULL, SND_ASYNC);
+    
 
-    //now give three info
-    //1. where is the camera (viewer)?
-    //2. where is the camera looking?
-    //3. Which direction is the camera's UP direction?
-
-    //gluLookAt(100,100,100,	0,0,0,	0,0,1);
     gluLookAt(pos.x, pos.y, pos.z, pos.x + l.x, pos.y + l.y, pos.z + l.z, u.x, u.y, u.z);
     float light_position[] = { (pos.x + l.x) , (pos.y + l.y)  , 0 , 1.0f };
     float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
     float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
     float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
 
-    glShadeModel(GL_SMOOTH);      //GL_FLAT 
+    glShadeModel(GL_SMOOTH);      
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -1416,40 +1074,14 @@ void display()
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
     glEnable(GL_DEPTH_TEST);
-    //gluLookAt(0,0,1000,	0,0,0,	0,1,0);
+    
 
-
-    //again select MODEL-VIEW
     glMatrixMode(GL_MODELVIEW);
 
 
-    /****************************
-    / Add your objects from here
-    ****************************/
-    //add objects
-
-    //drawAxes();
-    //drawGrid();
-
-    //glColor3f(1,0,0);
-    //drawSquare(10);
-
     drawSS();
 
-    //drawCircle(30,24);
 
-    //drawCone(20,50,24);
-
-    /*glPushMatrix();
-    glTranslatef(-100, 200, 0);
-    glColor3f(1.0, 1.0, 0.0);
-    drawSphere(30,24,20);
-    glPopMatrix();*/
-
-
-
-
-    //ADD this line in the end --- if you use double buffer (i.e. GL_DOUBLE)
     glFlush();
     glutSwapBuffers();
 }
@@ -1486,7 +1118,7 @@ void animate()
         playerRad = 0;
         playerRadFlag = 0;
     }
-    //codes for any changes in Models, Camera
+    
     glutPostRedisplay();
 }
 
@@ -1500,24 +1132,22 @@ int main(int argc, char** argv)
     glutInit(&argc, argv);
     glutInitWindowSize(720, 720);
     glutInitWindowPosition(0, 0);
-    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);	//Depth, Double buffer, RGB color
+    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);	
 
-    glutCreateWindow("My OpenGL Program");
+    glutCreateWindow("찬호의 사원 대탐험");
 
     init();
 
-    glEnable(GL_DEPTH_TEST);	//enable Depth Testing
+    glEnable(GL_DEPTH_TEST);	
 
-    glutDisplayFunc(display);	//display callback function
-    glutIdleFunc(animate);		//what you want to do in the idle time (when no drawing is occuring)
+    glutDisplayFunc(display);	
+    glutIdleFunc(animate);		
     glutReshapeFunc(reshape);
 
     glutKeyboardFunc(keyboardListener);
     glutSpecialFunc(specialKeyListener);
     glutMouseFunc(mouseListener);
     glutTimerFunc(6400, Sound, 1);
-
-    //destroy();
 
     glutMainLoop();
 }
